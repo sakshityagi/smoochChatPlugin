@@ -25,7 +25,22 @@
 </head>
 <body>
 <div ng-controller="SettingsHomeCtrl as SettingsHome">
-    <span>Settings -{{SettingsHome.helloWorld}}</span>
+    <!--<span>Settings -{{SettingsHome.helloWorld}}</span>-->
+    <div class="item clearfix row margin-bottom-fifteen">
+        <div class="labels col-md-3 padding-right-zero pull-left">
+            <span>API Key:</span>
+        </div>
+        <div class="main col-md-9 pull-right clearfix">
+            <div class="col-md-9 pull-left padding-left-zero">
+                <input id="api" name="api" type="text" class="form-control" placeholder="Enter Smooch chat API key here...">
+            </div>
+            <div class="col-md-3 pull-right padding-zero">
+                <button class="btn btn-success stretch">
+                    Validate
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
