@@ -1,8 +1,8 @@
 {
   "author":"BuildFire"
-,"pluginName":"Fixed Timer"
+,"pluginName":"Smooch chat"
 ,"pluginDescription":"A plugin that creates a smoochChat application."
-,"supportEmail":"[Your support Email]"
+,"supportEmail":"support@buildfire.com"
 ,"control":{
   "content":{
     "enabled":false
