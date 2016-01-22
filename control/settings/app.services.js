@@ -63,26 +63,4 @@
         }
       }
     }])
-    .factory("Utils", ["$http", '$q', 'PROXY_SERVER', function ($http, $q, PROXY_SERVER) {
-        return {
-          validateUrl: function (url) {
-            var deferred = $q.defer();
-            if (!url) {
-              deferred.reject(new Error('Undefined feed url'));
-            }
-            $http.post(PROXY_SERVER.serverUrl + '/validateJotFormUrl', {
-              url: url
-            }).success(function (response) {
-                  if (response)
-                    deferred.resolve(response);
-                  else
-                    deferred.resolve(null);
-                })
-                .error(function (error) {
-                  deferred.reject(error);
-                });
-            return deferred.promise;
-          }
-        }
-    }]);
 })(window.angular, window.buildfire);
