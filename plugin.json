@@ -1,0 +1,22 @@
+{
+  "author":"BuildFire"
+,"pluginName":"Fixed Timer"
+,"pluginDescription":"A plugin that creates a smoochChat application."
+,"supportEmail":"[Your support Email]"
+,"control":{
+  "content":{
+    "enabled":false
+  }
+, "design":{
+    "enabled":false
+  }
+, "settings":{
+    "enabled":true
+  }
+}
+,"widget":{
+
+},
+  "features" : [],
+  "languages" : ["en"]
+}
