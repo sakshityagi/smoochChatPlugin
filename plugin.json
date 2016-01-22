@@ -1,0 +1,22 @@
+{
+  "author":"BuildFire"
+,"pluginName":"Smooch chat"
+,"pluginDescription":"A plugin that creates a smoochChat application."
+,"supportEmail":"support@buildfire.com"
+,"control":{
+  "content":{
+    "enabled":false
+  }
+, "design":{
+    "enabled":false
+  }
+, "settings":{
+    "enabled":true
+  }
+}
+,"widget":{
+
+},
+  "features" : [],
+  "languages" : ["en"]
+}
