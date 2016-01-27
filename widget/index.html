@@ -27,7 +27,12 @@
 </head>
 <body>
 <div ng-controller="WidgetHomeCtrl as WidgetHome">
-
+  <div class="item clearfix row" ng-if="WidgetHome.invalidApiKey">
+    <div class="main col-md-12">
+      <div class="alert alert-danger alert-sm text-center">Invalid Api key
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>

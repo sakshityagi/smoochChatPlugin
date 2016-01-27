@@ -7,20 +7,28 @@
         var WidgetHome = this;
         WidgetHome.data = {};
         WidgetHome.helloWorldWidget = "Hello World Widget";
+        WidgetHome.invalidApiKey = false;
+
         /*Init method call, it will bring all the pre saved data*/
         WidgetHome.init = function () {
           WidgetHome.success = function (result) {
             console.info('init success result:', result);
             if (result) {
-
               WidgetHome.data = result.data;
-              console.log("aaaaaaaaaaaaaaaa",WidgetHome.data);
               if (!WidgetHome.data.settings)
                 WidgetHome.data.settings = {};
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-              var a = Smooch.init({appToken: WidgetHome.apiKey});
-              console.log("aaaaaaaaaaaaaa",a);
-               Smooch.open();
+              var smoochApp = Smooch.init({appToken: WidgetHome.apiKey});
+              if (smoochApp._d && smoochApp._d.v && smoochApp._d.v._id) {
+                Smooch.open();
+              }
+              else {
+                WidgetHome.invalidApiKey = true;
+                setTimeout(function () {
+                  WidgetHome.invalidApiKey = false;
+                  $scope.$digest();
+                }, 5000);
+              }
             }
           };
           WidgetHome.error = function (err) {
@@ -40,22 +48,23 @@
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
               setTimeout(function () {
                 var response = Smooch.init({appToken: WidgetHome.apiKey});
-                // console.log("aaaaaaaaaaaaaa", response, response.q, response._d.s)
-                if (response._d.s == 2) {
-                  console.log("aaaaaaaaaaa", response._d.s);
+                if (response._d && response._d.v && response._d.v._id) {
+                  Smooch.open();
+                } else {
                   Smooch.close();
                   Smooch.destroy();
-                } else {
-                  // Smooch.destroy();
-                  console.log("aaaaaaaaaaa", response._d.s);
-                  Smooch.open();
+                  WidgetHome.invalidApiKey = true;
+                  setTimeout(function () {
+                    WidgetHome.invalidApiKey = false;
+                    $scope.$digest();
+                  }, 5000);
                 }
-              },1000);
+              }, 1000);
               $scope.$digest();
             }
           }, 0);
         };
 
         DataStore.onUpdate().then(null, null, onUpdateCallback);
-    }]);
+      }]);
 })(window.angular);
