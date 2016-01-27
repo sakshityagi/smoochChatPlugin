@@ -20,7 +20,8 @@
 
             SettingsHome.data = {
                 settings:{
-                    "apiKey":""
+                    "apiKey":"",
+                    "headerText":""
                 }
             }
 
@@ -33,6 +34,7 @@
                         if (!SettingsHome.data.settings)
                             SettingsHome.data.settings = {};
                         SettingsHome.apiKey = SettingsHome.data.settings.apiKey;
+                        SettingsHome.headerText = SettingsHome.data.settings.headerText;
                     }
                 };
                 SettingsHome.error = function (err) {
@@ -62,6 +64,7 @@
 
             SettingsHome.saveApi = function () {
                 SettingsHome.data.settings.apiKey = SettingsHome.apiKey;
+                SettingsHome.data.settings.headerText = SettingsHome.headerText;
                 SettingsHome.saveData(JSON.parse(angular.toJson(SettingsHome.data)), TAG_NAMES.SMOOCH_CHAT_DATA);
               };
         }])
