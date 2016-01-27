@@ -6,7 +6,6 @@
       function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE) {
         var WidgetHome = this;
         WidgetHome.data = {};
-        WidgetHome.helloWorldWidget = "Hello World Widget";
         WidgetHome.invalidApiKey = false;
 
         /*Init method call, it will bring all the pre saved data*/
@@ -18,7 +17,13 @@
               if (!WidgetHome.data.settings)
                 WidgetHome.data.settings = {};
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-              var smoochApp = Smooch.init({appToken: WidgetHome.apiKey});
+
+              var smoochApp = Smooch.init({
+                appToken: WidgetHome.apiKey,
+                customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
+              });
+
+              console.log("??????????????", smoochApp._d);
               if (smoochApp._d && smoochApp._d.v && smoochApp._d.v._id) {
                 Smooch.open();
               }
@@ -47,7 +52,10 @@
               WidgetHome.data = event.data;
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
               setTimeout(function () {
-                var response = Smooch.init({appToken: WidgetHome.apiKey});
+                var response = Smooch.init({
+                  appToken: WidgetHome.apiKey,
+                  customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
+                });
                 if (response._d && response._d.v && response._d.v._id) {
                   Smooch.open();
                 } else {
