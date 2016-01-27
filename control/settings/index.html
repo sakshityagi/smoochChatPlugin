@@ -44,8 +44,9 @@
                 <input id="apiKey"  name="apiKey" type="text" class="form-control" placeholder="Enter Smooch chat API key here..." ng-model = "SettingsHome.apiKey" required>
             </div>
             <div class="col-md-3 pull-right padding-zero">
-                <button class="btn btn-success stretch" ng-click="SettingsHome.saveApi()">
-                    Validate
+                <button class="btn btn-success stretch"
+                        ng-click="SettingsHome.saveApi()" ng-disabled="!SettingsHome.apiKey">
+                    Save
                 </button>
             </div>
         </div>
