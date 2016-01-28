@@ -26,7 +26,7 @@ describe('Unit: smoochChatPluginSettings content app', function () {
             }
           }
 
-        },     spinner: {
+        }, spinner: {
           hide: function () {
             return {}
           },
@@ -36,7 +36,7 @@ describe('Unit: smoochChatPluginSettings content app', function () {
 
         }
       };
-        ActionItems = jasmine.createSpyObj('ActionItems', ['showDialog'])
+      ActionItems = jasmine.createSpyObj('ActionItems', ['showDialog'])
 
     }));
 
@@ -52,9 +52,34 @@ describe('Unit: smoochChatPluginSettings content app', function () {
       });
     });
     describe('It will test the defined methods', function () {
-it('It will test the defined methods', function () {})
-
+      it('It will test the defined methods of SettingsHome.error(err) where err:code is null', function () {
+        var err ={
+          code:null
+        };
+        SettingsHome.error(err);
+      });
     });
 
-  });
-});
+    describe('It will test the defined methods', function () {
+      it('It will test the defined methods of SettingsHome.error(err) where err:code is having status', function () {
+        var err ={
+          code:STATUS_CODE.NOT_FOUND
+        };
+        SettingsHome.error(err);
+      });
+    });
+
+    describe('It will test the defined methods', function () {
+      it('It will test the defined methods', function () {
+        SettingsHome.data = {
+          settings:{
+            "apiKey":"123",
+            "headerText":"test"
+          }
+        }
+        SettingsHome.saveData();
+        SettingsHome.saveApi();
+      });
+
+    });
+  })});
