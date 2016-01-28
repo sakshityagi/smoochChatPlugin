@@ -60,6 +60,21 @@ describe('Unit: smoochChatPluginWidget app', function () {
         WidgetHome.error()
       });
 
+      it('it should pass if WidgetHome.success is called for error', function () {
+        WidgetHome.data = null;
+        var result  = {
+          settings:"hi"
+        };
+        WidgetHome.data = result;
+        WidgetHome.init();
+        WidgetHome.success();
+      });
+      it('It will test the defined methods of WidgetHome.error(err) where err:code is having status', function () {
+        var err ={
+          code:null
+        };
+        WidgetHome.error(err);
+      });
       it('it should pass if  WidgetHome.onUpdateCallback is called', function () {
         var event = {
           tag: TAG_NAMES.SMOOCH_CHAT_INFO
