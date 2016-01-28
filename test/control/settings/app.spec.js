@@ -26,7 +26,7 @@ describe('Unit: smoochChatPluginSettings content app', function () {
             }
           }
 
-        },     spinner: {
+        }, spinner: {
           hide: function () {
             return {}
           },
@@ -36,7 +36,7 @@ describe('Unit: smoochChatPluginSettings content app', function () {
 
         }
       };
-        ActionItems = jasmine.createSpyObj('ActionItems', ['showDialog'])
+      ActionItems = jasmine.createSpyObj('ActionItems', ['showDialog'])
 
     }));
 
@@ -52,7 +52,8 @@ describe('Unit: smoochChatPluginSettings content app', function () {
       });
     });
     describe('It will test the defined methods', function () {
-it('It will test the defined methods', function () {})
+      it('It will test the defined methods', function () {
+      })
 
     });
 

@@ -42,10 +42,10 @@
                         console.error('Error while getting data', err);
                     }
                     else if (err && err.code === STATUS_CODE.NOT_FOUND) {
-                        SettingsHome.saveData(JSON.parse(angular.toJson(SettingsHome.data)), TAG_NAMES.SMOOCH_CHAT_DATA);
+                        SettingsHome.saveData(JSON.parse(angular.toJson(SettingsHome.data)), TAG_NAMES.SMOOCH_CHAT_INFO);
                     }
                 };
-                DataStore.get(TAG_NAMES.SMOOCH_CHAT_DATA).then(SettingsHome.success, SettingsHome.error);
+                DataStore.get(TAG_NAMES.SMOOCH_CHAT_INFO).then(SettingsHome.success, SettingsHome.error);
             };
             SettingsHome.init();
 
@@ -65,7 +65,7 @@
             SettingsHome.saveApi = function () {
                 SettingsHome.data.settings.apiKey = SettingsHome.apiKey;
                 SettingsHome.data.settings.headerText = SettingsHome.headerText;
-                SettingsHome.saveData(JSON.parse(angular.toJson(SettingsHome.data)), TAG_NAMES.SMOOCH_CHAT_DATA);
+                SettingsHome.saveData(JSON.parse(angular.toJson(SettingsHome.data)), TAG_NAMES.SMOOCH_CHAT_INFO);
               };
         }])
 })(window.angular,window.buildfire);
