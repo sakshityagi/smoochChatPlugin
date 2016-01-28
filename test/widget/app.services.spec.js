@@ -17,7 +17,7 @@ describe('Unit: smoochChatPluginWidget: Services', function () {
     var DataStore, Buildfire, STATUS_MESSAGES, STATUS_CODE, q, TAG_NAMES, $rootScope;
     beforeEach(module('smoochChatPluginWidget', function ($provide) {
       $provide.service('Buildfire', function () {
-        this.datastore = jasmine.createSpyObj('datastore', ['get', 'onUpdate']);
+        this.datastore = jasmine.createSpyObj('datastore', ['get', 'onUpdate', 'clearListener']);
         this.datastore.get.and.callFake(function (_tagName, callback) {
           if (_tagName) {
             callback(null, 'Success');
@@ -27,6 +27,12 @@ describe('Unit: smoochChatPluginWidget: Services', function () {
         });
 
           this.datastore.onUpdate.and.callFake(function (callback) {
+
+              callback(null, 'Success');
+
+          });
+
+          this.datastore.clearListener.and.callFake(function () {
 
               callback(null, 'Success');
 
@@ -92,6 +98,12 @@ describe('Unit: smoochChatPluginWidget: Services', function () {
           DataStore.onUpdate().then(success, error);
           $rootScope.$digest();
           expect(result).toEqual('');
+      });
+
+
+      it('DataStore.clearListener should call', function () {
+          DataStore.clearListener()
+          $rootScope.$digest();
       });
   })
 
