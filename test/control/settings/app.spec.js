@@ -51,8 +51,17 @@ describe('Unit: smoochChatPluginSettings content app', function () {
         CONTENT_TYPE: CONTENT_TYPE
       });
     });
+
+
     describe('It will test the defined methods', function () {
-it('It will test the defined methods', function () {})
+      it('It will test the defined methods of SettingsHome.error(err) where err:code is null', function () {
+        var err ={
+          code:null
+        };
+        SettingsHome.error(err);
+      });
+    });
+
 
     describe('It will test the defined methods', function () {
       it('It will test the defined methods of SettingsHome.error(err) where err:code is having status', function () {
@@ -70,10 +79,18 @@ it('It will test the defined methods', function () {})
             "apiKey":"123",
             "headerText":"test"
           }
-        }
+        };
         SettingsHome.saveData();
         SettingsHome.saveApi();
       });
 
     });
-  })});
+
+    describe('It will test the defined methods', function () {
+      it('It will test the defined methods of SettingsHome.gotToPage', function () {
+        SettingsHome.gotToPage();
+      });
+
+    });
+  })
+  });
