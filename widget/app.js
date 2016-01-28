@@ -6,7 +6,7 @@
       function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE) {
         var WidgetHome = this;
         WidgetHome.data = {};
-        WidgetHome.invalidApiKey = false;
+        WidgetHome.invalidApiKey = true;
 
         /*Init method call, it will bring all the pre saved data*/
         WidgetHome.init = function () {
@@ -32,24 +32,11 @@
                   $scope.$digest();
                     }
               },function(err){
-                console.log("??????????????e", err);
                 WidgetHome.invalidApiKey = true;
-                Smooch.close();
+                console.log("??????????????e", err);
+                Smooch.destroy();
                 $scope.$digest();
               });
-              //setTimeout(function () {
-              //  console.log("??????????????", smoochApp._d.v);
-              //  if (smoochApp._d && smoochApp._d.v && smoochApp._d.v._id) {
-              //    WidgetHome.invalidApiKey = false;
-              //    Smooch.open();
-              //  }
-              //  else {
-              //    WidgetHome.invalidApiKey = true;
-              //  }
-              //  $scope.$digest();
-              //}, 4000);
-
-             // console.log("??????????????", smoochApp._d.v._id);
 
             }
           };
@@ -82,7 +69,7 @@
               },function(err){
                 WidgetHome.invalidApiKey = true;
                 console.log("??????????????e", err);
-                Smooch.close();
+                Smooch.destroy();
                 $scope.$digest();
               });
               $scope.$digest();
