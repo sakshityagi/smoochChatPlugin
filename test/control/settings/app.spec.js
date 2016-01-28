@@ -52,13 +52,7 @@ describe('Unit: smoochChatPluginSettings content app', function () {
       });
     });
     describe('It will test the defined methods', function () {
-      it('It will test the defined methods of SettingsHome.error(err) where err:code is null', function () {
-        var err ={
-          code:null
-        };
-        SettingsHome.error(err);
-      });
-    });
+it('It will test the defined methods', function () {})
 
     describe('It will test the defined methods', function () {
       it('It will test the defined methods of SettingsHome.error(err) where err:code is having status', function () {

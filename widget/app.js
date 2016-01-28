@@ -45,7 +45,7 @@
               console.error('Error while getting data', err);
             }
           };
-          DataStore.get(TAG_NAMES.SMOOCH_CHAT_DATA).then(WidgetHome.success, WidgetHome.error);
+          DataStore.get(TAG_NAMES.SMOOCH_CHAT_INFO).then(WidgetHome.success, WidgetHome.error);
         };
         WidgetHome.init();
 
