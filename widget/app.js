@@ -29,11 +29,13 @@
                 if (res && res._id) {
                       WidgetHome.invalidApiKey = false;
                       Smooch.open();
+                  $scope.$digest();
                     }
               },function(err){
                 console.log("??????????????e", err);
                 WidgetHome.invalidApiKey = true;
                 Smooch.close();
+                $scope.$digest();
               });
               //setTimeout(function () {
               //  console.log("??????????????", smoochApp._d.v);
@@ -75,11 +77,13 @@
                 if (res && res._id) {
                   WidgetHome.invalidApiKey = false;
                   Smooch.open();
+                  $scope.$digest();
                 }
               },function(err){
+                WidgetHome.invalidApiKey = true;
                 console.log("??????????????e", err);
                 Smooch.close();
-                WidgetHome.invalidApiKey = true;
+                $scope.$digest();
               });
               $scope.$digest();
             }

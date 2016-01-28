@@ -1,4 +1,5 @@
 
-#sk-holder #sk-container.sk-appear, #sk-holder #sk-container.sk-appear #sk-wrapper {
-              height: 96% !important;
-          }
+#sk-holder #sk-container.sk-appear #sk-wrapper {
+    height: 97% !important;
+    top: 0 !important;
+}
