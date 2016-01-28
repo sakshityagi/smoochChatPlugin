@@ -23,17 +23,32 @@
                 customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
               });
 
-              console.log("??????????????", smoochApp._d);
-              if (smoochApp._d && smoochApp._d.v && smoochApp._d.v._id) {
-                Smooch.open();
-              }
-              else {
+
+              smoochApp.then(function(res){
+                console.log("??????????????", res);
+                if (res && res._id) {
+                      WidgetHome.invalidApiKey = false;
+                      Smooch.open();
+                    }
+              },function(err){
+                console.log("??????????????e", err);
                 WidgetHome.invalidApiKey = true;
-                setTimeout(function () {
-                  WidgetHome.invalidApiKey = false;
-                  $scope.$digest();
-                }, 5000);
-              }
+                Smooch.close();
+              });
+              //setTimeout(function () {
+              //  console.log("??????????????", smoochApp._d.v);
+              //  if (smoochApp._d && smoochApp._d.v && smoochApp._d.v._id) {
+              //    WidgetHome.invalidApiKey = false;
+              //    Smooch.open();
+              //  }
+              //  else {
+              //    WidgetHome.invalidApiKey = true;
+              //  }
+              //  $scope.$digest();
+              //}, 4000);
+
+             // console.log("??????????????", smoochApp._d.v._id);
+
             }
           };
           WidgetHome.error = function (err) {
@@ -51,23 +66,21 @@
             if (event) {
               WidgetHome.data = event.data;
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-              setTimeout(function () {
-                var response = Smooch.init({
-                  appToken: WidgetHome.apiKey,
-                  customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
-                });
-                if (response._d && response._d.v && response._d.v._id) {
+              var smoochApp = Smooch.init({
+                appToken: WidgetHome.apiKey,
+                customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
+              });
+              smoochApp.then(function(res){
+                console.log("??????????????onUpdate", res);
+                if (res && res._id) {
+                  WidgetHome.invalidApiKey = false;
                   Smooch.open();
-                } else {
-                  Smooch.close();
-                  Smooch.destroy();
-                  WidgetHome.invalidApiKey = true;
-                  setTimeout(function () {
-                    WidgetHome.invalidApiKey = false;
-                    $scope.$digest();
-                  }, 5000);
                 }
-              }, 1000);
+              },function(err){
+                console.log("??????????????e", err);
+                Smooch.close();
+                WidgetHome.invalidApiKey = true;
+              });
               $scope.$digest();
             }
           }, 0);
