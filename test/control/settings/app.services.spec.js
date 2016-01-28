@@ -89,7 +89,7 @@ describe('Unit: smoochChatPluginSettings: Services', function () {
           , error = function (err) {
             result = err;
           };
-      DataStore.get(TAG_NAMES.SMOOCH_CHAT_DATA).then(success, error);
+      DataStore.get(TAG_NAMES.SMOOCH_CHAT_INFO).then(success, error);
       $rootScope.$digest();
       expect(result).toEqual('Success');
     });
@@ -117,7 +117,7 @@ describe('Unit: smoochChatPluginSettings: Services', function () {
           , error = function (err) {
             result = err;
           };
-      DataStore.update( 123, TAG_NAMES.SMOOCH_CHAT_DATA, null).then(success, error);
+      DataStore.update( 123, TAG_NAMES.SMOOCH_CHAT_INFO, null).then(success, error);
       $rootScope.$digest();
       expect(result).toEqual('Success');
     });
@@ -142,7 +142,7 @@ describe('Unit: smoochChatPluginSettings: Services', function () {
           , error = function (err) {
             result = err;
           };
-      DataStore.save( 123, TAG_NAMES.SMOOCH_CHAT_DATA, null).then(success, error);
+      DataStore.save( 123, TAG_NAMES.SMOOCH_CHAT_INFO, null).then(success, error);
       $rootScope.$digest();
       expect(result).toEqual('Success');
     });

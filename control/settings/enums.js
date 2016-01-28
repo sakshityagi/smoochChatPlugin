@@ -3,7 +3,7 @@
 (function (angular) {
     angular.module('smoochChatPluginSettings')
         .constant('TAG_NAMES', {
-            SMOOCH_CHAT_DATA: 'smoochChatData'
+            SMOOCH_CHAT_INFO: 'smoochChatInfo'
         })
         .constant('STATUS_CODE', {
             INSERTED: 'inserted',
