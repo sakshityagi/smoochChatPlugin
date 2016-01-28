@@ -7,6 +7,7 @@
         var WidgetHome = this;
         WidgetHome.data = {};
         WidgetHome.invalidApiKey = true;
+        WidgetHome.apiKey="";
 
         /*Init method call, it will bring all the pre saved data*/
         WidgetHome.init = function () {
@@ -17,7 +18,7 @@
               if (!WidgetHome.data.settings)
                 WidgetHome.data.settings = {};
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-
+              console.log("??????????????aa", result.data);
               var smoochApp = Smooch.init({
                 appToken: WidgetHome.apiKey,
                 customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
@@ -29,7 +30,7 @@
                 if (res && res._id) {
                       WidgetHome.invalidApiKey = false;
                       Smooch.open();
-                  $scope.$digest();
+                      $scope.$digest();
                     }
               },function(err){
                 WidgetHome.invalidApiKey = true;
