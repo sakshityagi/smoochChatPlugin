@@ -27,6 +27,9 @@
                 Buildfire.spinner.hide();
                 if (res && res._id) {
                   WidgetHome.invalidApiKey = false;
+                  $('#sk-header').click(function(event){
+                    event.stopPropagation();
+                  });
                   Smooch.open();
                   $scope.$digest();
                 }
@@ -65,6 +68,9 @@
                 Buildfire.spinner.hide();
                 if (res && res._id) {
                   WidgetHome.invalidApiKey = false;
+                  $('#sk-header').click(function(event){
+                    event.stopPropagation();
+                  });
                   Smooch.open();
                   $scope.$digest();
                 }
