@@ -9,3 +9,22 @@
 #sk-holder #sk-container #sk-header .fa {
     display: none;
 }
+
+/*// To recolor bubbles to orange*/
+
+/*#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg{*/
+    /*background-color: #ff3333 !important;*/
+/*}*/
+   #sk-container #sk-wrapper .sk-row .sk-left-row .sk-msg {
+       background-color: #ff3333 !important;
+   }
+/*#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg::after {*/
+    /*border-left-color: #ff3333 !important;*/
+/*}*/
+.sudochange{
+    background-color: #ff3333 !important;
+}
+.sudochange::after{
+    border-left-color: #ff3333 !important;
+}
+

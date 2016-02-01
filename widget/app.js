@@ -30,6 +30,7 @@
                   $('#sk-header').click(function(event){
                     event.stopPropagation();
                   });
+                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass('sudochange');
                   Smooch.open();
                   $scope.$digest();
                 }
