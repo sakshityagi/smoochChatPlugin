@@ -29,7 +29,7 @@
   <div class="item clearfix row" ng-if="SettingsHome.data">
     <div class="main pull-right col-md-9">
       <div class="alert alert-danger alert-sm text-center"
-           ng-if="!SettingsHome.apiKey">Please enter Smooch Chat API Key
+           ng-if="!SettingsHome.data.settings.apiKey">Please enter Smooch Chat API Key
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
       <div class="col-md-9 pull-left padding-left-zero">
         <input id="apiKey" name="apiKey" type="text" class="form-control"
                placeholder="Enter Smooch chat API key here..."
-               ng-model="SettingsHome.apiKey" required>
+               ng-model="SettingsHome.data.settings.apiKey" required>
       </div>
 
     </div>
@@ -53,18 +53,18 @@
     </div>
     <div class="main col-md-9 pull-right clearfix">
       <div class="col-md-9 pull-left padding-left-zero">
-        <input id="headerText" name="apiKey" type="text" class="form-control"
+        <input id="headerText" name="apiKey" type="text" maxlength="20" class="form-control"
                placeholder="How can we help?"
-               ng-model="SettingsHome.headerText" required>
+               ng-model="SettingsHome.data.settings.headerText" required>
       </div>
-      </br></br>
-      <div class="col-md-9 pull-left padding-left-zero">
-        <button class="btn btn-success stretch"
-                ng-click="SettingsHome.saveApi()"
-                ng-disabled="!SettingsHome.apiKey">
-          Save
-        </button>
-      </div>
+      <!--</br></br>-->
+      <!--<div class="col-md-9 pull-left padding-left-zero">-->
+        <!--<button class="btn btn-success stretch"-->
+                <!--ng-click="SettingsHome.saveApi()"-->
+                <!--ng-disabled="!SettingsHome.data.settings.apiKey">-->
+          <!--Save-->
+        <!--</button>-->
+      <!--</div>-->
     </div>
   </div>
   <hr class="none">
