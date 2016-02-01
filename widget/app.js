@@ -17,6 +17,10 @@
               WidgetHome.data = result.data;
               if (!WidgetHome.data.settings)
                 WidgetHome.data.settings = {};
+              if(!WidgetHome.data.design){
+                WidgetHome.data.design = {};
+                WidgetHome.data.design.color = '5d8aa8';
+              }
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
               Buildfire.spinner.show();
               var smoochApp = Smooch.init({
@@ -30,10 +34,27 @@
                   $('#sk-header').click(function(event){
                     event.stopPropagation();
                   });
-                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass('sudochange');
+                  WidgetHome.className = "color-"+WidgetHome.data.design.color
+                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
+                    return (css.match (/\color-\S+/g) || []).join(' ');
+                  });
+                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
+
                   Smooch.open();
                   $scope.$digest();
                 }
+
+                Smooch.on('message:sent', function(message) {
+                  WidgetHome.className = "color-"+WidgetHome.data.design.color
+                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
+                    return (css.match (/\color-\S+/g) || []).join(' ');
+                  })
+                 $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
+                  console.log('the user sent a message', message);
+
+                });
+
+                $scope.$apply();
               }, function (err) {
                 console.log("??????????????", err);
                 Buildfire.spinner.hide();
@@ -72,6 +93,12 @@
                   $('#sk-header').click(function(event){
                     event.stopPropagation();
                   });
+                  WidgetHome.className = "color-"+WidgetHome.data.design.color ||"5d8aa8"
+                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
+                    return (css.match (/\color-\S+/g) || []).join(' ');
+                  });
+                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
+
                   Smooch.open();
                   $scope.$digest();
                 }
