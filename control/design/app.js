@@ -4,19 +4,6 @@
   angular.module('smoochChatPluginDesign', ['ui.bootstrap'])
     .controller('DesignHomeCtrl', ['$scope', 'Buildfire', 'STATUS_CODE', 'TAG_NAMES', 'DataStore', function ($scope, Buildfire, STATUS_CODE, TAG_NAMES, DataStore) {
       var DesignHome = this;
-        DesignHome.helloWorld = 'Hello World';
-      // Smooch.init({appToken: '630vy96ywcm2d9iqs19y6b5xa'});
-
-      //Smooch.init({
-      //    appToken: 'ecmipaz246piiw0kd1jhe0gty',
-      //    customText: {
-      //        headerText: 'How can we help?',
-      //        inputPlaceholder: 'Type a message...',
-      //        sendButtonText: 'Send',
-      //        introText: 'This is the beginning of your conversation.<br/> Ask us anything!',
-      //        settingsText: 'You can leave us your email so that we can get back to you this way.'
-      //    }
-      //});
         DesignHome.data = {
           settings: {
             "apiKey": "",
