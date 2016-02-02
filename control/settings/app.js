@@ -6,7 +6,7 @@
       var SettingsHome = this;
       SettingsHome.helloWorld = 'Hello World';
       // Smooch.init({appToken: '630vy96ywcm2d9iqs19y6b5xa'});
-
+        SettingsHome.masterData = null;
       //Smooch.init({
       //    appToken: 'ecmipaz246piiw0kd1jhe0gty',
       //    customText: {
@@ -25,6 +25,13 @@
         }
       };
 
+        function isUnchanged(data) {
+          return angular.equals(data, SettingsHome.masterData);
+        }
+
+        function updateMasterItem(data) {
+          SettingsHome.masterData = angular.copy(data);
+        }
       /*Init method call, it will bring all the pre saved data*/
       SettingsHome.init = function () {
         SettingsHome.success = function (result) {
@@ -33,8 +40,7 @@
             SettingsHome.data = result.data;
             if (!SettingsHome.data.settings)
               SettingsHome.data.settings = {};
-            SettingsHome.apiKey = SettingsHome.data.settings.apiKey;
-            SettingsHome.headerText = SettingsHome.data.settings.headerText;
+            updateMasterItem(SettingsHome.data);
           }
         };
         SettingsHome.error = function (err) {
@@ -61,12 +67,36 @@
         };
         DataStore.save(newObj, tag).then(SettingsHome.success, SettingsHome.error);
       };
-
       SettingsHome.saveApi = function () {
-        SettingsHome.data.settings.apiKey = SettingsHome.apiKey;
-        SettingsHome.data.settings.headerText = SettingsHome.headerText;
         SettingsHome.saveData(JSON.parse(angular.toJson(SettingsHome.data)), TAG_NAMES.SMOOCH_CHAT_INFO);
       };
+
+
+        /*Save the data on .5 sec delay*/
+        var tmrDelay = null;
+        var saveDataWithDelay = function (newObj) {
+          console.log("///////////",newObj)
+          if (newObj) {
+            if (isUnchanged(newObj)) {
+              return;
+            }
+            if (tmrDelay) {
+              clearTimeout(tmrDelay);
+            }
+            tmrDelay = setTimeout(function () {
+            console.log("insave")
+                SettingsHome.saveApi();
+            }, 1000);
+          }
+        };
+
+        /*
+         * watch for changes in data and trigger the saveDataWithDelay function on change
+         * */
+
+        $scope.$watch(function () {
+          return SettingsHome.data;
+        }, saveDataWithDelay, true);
 
       SettingsHome.gotToPage = function(){
         window.open('https://app.smooch.io/signup', '_blank');

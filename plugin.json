@@ -6,13 +6,14 @@
 ,"control":{
   "content":{
     "enabled":false
-  }
-, "design":{
-    "enabled":false
-  }
-, "settings":{
+  },
+  "settings":{
     "enabled":true
   }
+, "design":{
+    "enabled":true
+  }
+
 }
 ,"widget":{
 

@@ -9,3 +9,67 @@
 #sk-holder #sk-container #sk-header .fa {
     display: none;
 }
+
+.screens .screen.layouticon a, .screens .layoutgrid .layouticon {
+    height: 59px !important;
+    line-height: 55px !important;
+}
+/*// To recolor bubbles to orange*/
+
+/*#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg{*/
+    /*background-color: #ff3333 !important;*/
+/*}*/
+   /*#sk-container #sk-wrapper .sk-row .sk-left-row .sk-msg {*/
+       /*background-color: #ff3333 !important;*/
+   /*}*/
+/*#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg::after {*/
+    /*border-left-color: #ff3333 !important;*/
+/*}*/
+/*#sk-container #sk-wrapper .sk-msg {*/
+    /*background-color: #ff3333 !important;*/
+/*}*/
+/*#sk-container #sk-wrapper .sk-msg::after {*/
+    /*border-left-color: #ff3333 !important;*/
+/*}*/
+.color-5d8aa8{
+    background-color: #5d8aa8 !important;
+}
+.color-007fff{
+    background-color: #007fff !important;
+}
+.color-5d8aa8::after{
+    border-left-color: #5d8aa8 !important;
+}
+.color-007fff::after{
+    border-left-color: #007fff !important;
+}
+.color-9966cc{
+    background-color: #9966cc !important;
+}
+.color-9966cc::after{
+    border-left-color: #9966cc !important;
+}
+.color-98777b{
+    background-color: #98777b !important;
+}
+.color-98777b::after{
+    border-left-color: #98777b !important;
+}
+.color-a4c639{
+    background-color: #a4c639 !important;
+}
+.color-a4c639::after{
+    border-left-color: #a4c639 !important;
+}
+.color-e52b50{
+    background-color: #e52b50 !important;
+}
+.color-e52b50::after{
+    border-left-color: #e52b50 !important;
+}
+.color-e32636{
+    background-color: #e32636 !important;
+}
+.color-e32636::after{
+    border-left-color: #e32636 !important;
+}

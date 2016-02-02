@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app='smoochChatPluginDesign'>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="../../../../styles/helper.css" rel="stylesheet">
+  <link href="../../../../styles/siteIcons.css" rel="stylesheet">
+  <!-- JS -->
+
+
+  <!-- JS -->
+  <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../../../scripts/angular/angular.min.js"></script>
+  <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
+  <!--<script src="https://cdn.smooch.io/smooch.min.js"></script>-->
+  <script src="app.js"></script>
+  <script src="app.services.js"></script>
+  <script src="enums.js"></script>
+  <!--
+   <script src="../../../../scripts/angular/angular.min.js"></script>
+   <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
+
+   <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+   -->
+</head>
+<body>
+<div ng-controller="DesignHomeCtrl as DesignHome">
+    <div class="item row margin-bottom-twenty clearfix">
+        <div class="labels col-md-3 padding-right-zero pull-left">
+            <span>Select chat color</span>
+        </div>
+        <div class="main col-md-9 pull-right">
+            <div class="screens clearfix">
+                <div class="screen layouticon pull-left">
+                    <a class="border-radius-three default-background-hover text-center"  ng-if="DesignHome.data.design.color">
+                        <span class="add-icon hidden">+</span>
+                        <img
+                                ng-src="assets/images/{{DesignHome.data.design.color}}.png">
+                            </a>
+
+                </div>
+                <div class="screen layoutgrid pull-right margin-left-zero border-grey border-radius-three">
+                    <a ng-repeat="color in DesignHome.color.design"
+                       class="layouticon border-radius-three default-background-hover text-center" ng-click="DesignHome.changeColor(color.name)">
+                        <img ng-src="assets/images/{{color.name}}.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <br>
+
+</body>
+</html>
