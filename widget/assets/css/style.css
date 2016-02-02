@@ -25,12 +25,12 @@
 /*#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg::after {*/
     /*border-left-color: #ff3333 !important;*/
 /*}*/
-#sk-container #sk-wrapper .sk-msg {
-    background-color: #ff3333;
-}
-#sk-container #sk-wrapper .sk-msg::after {
-    border-left-color: #ff3333;
-}
+/*#sk-container #sk-wrapper .sk-msg {*/
+    /*background-color: #ff3333 !important;*/
+/*}*/
+/*#sk-container #sk-wrapper .sk-msg::after {*/
+    /*border-left-color: #ff3333 !important;*/
+/*}*/
 .color-5d8aa8{
     background-color: #5d8aa8 !important;
 }
