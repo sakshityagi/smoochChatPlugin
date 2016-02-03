@@ -6,7 +6,7 @@
       var SettingsHome = this;
       SettingsHome.helloWorld = 'Hello World';
       // Smooch.init({appToken: '630vy96ywcm2d9iqs19y6b5xa'});
-        SettingsHome.masterData = null;
+      SettingsHome.masterData = null;
       //Smooch.init({
       //    appToken: 'ecmipaz246piiw0kd1jhe0gty',
       //    customText: {
@@ -25,13 +25,14 @@
         }
       };
 
-        function isUnchanged(data) {
-          return angular.equals(data, SettingsHome.masterData);
-        }
+      SettingsHome.isUnchanged = function(data) {
+        return angular.equals(data, SettingsHome.masterData);
+      };
 
-        function updateMasterItem(data) {
-          SettingsHome.masterData = angular.copy(data);
-        }
+      SettingsHome.updateMasterItem = function(data) {
+        SettingsHome.masterData = angular.copy(data);
+      };
+
       /*Init method call, it will bring all the pre saved data*/
       SettingsHome.init = function () {
         SettingsHome.success = function (result) {
@@ -40,7 +41,7 @@
             SettingsHome.data = result.data;
             if (!SettingsHome.data.settings)
               SettingsHome.data.settings = {};
-            updateMasterItem(SettingsHome.data);
+            SettingsHome.updateMasterItem(SettingsHome.data);
           }
         };
         SettingsHome.error = function (err) {
@@ -72,33 +73,32 @@
       };
 
 
-        /*Save the data on .5 sec delay*/
-        var tmrDelay = null;
-        var saveDataWithDelay = function (newObj) {
-          console.log("///////////",newObj)
-          if (newObj) {
-            if (isUnchanged(newObj)) {
-              return;
-            }
-            if (tmrDelay) {
-              clearTimeout(tmrDelay);
-            }
-            tmrDelay = setTimeout(function () {
-            console.log("insave")
-                SettingsHome.saveApi();
-            }, 1000);
+      /*Save the data on .5 sec delay*/
+      var tmrDelay = null;
+      var saveDataWithDelay = function (newObj) {
+        if (newObj) {
+          if (SettingsHome.isUnchanged(newObj)) {
+            return;
           }
-        };
+          if (tmrDelay) {
+            clearTimeout(tmrDelay);
+          }
+          tmrDelay = setTimeout(function () {
+            console.log("insave")
+            SettingsHome.saveApi();
+          }, 1000);
+        }
+      };
 
-        /*
-         * watch for changes in data and trigger the saveDataWithDelay function on change
-         * */
+      /*
+       * watch for changes in data and trigger the saveDataWithDelay function on change
+       * */
 
-        $scope.$watch(function () {
-          return SettingsHome.data;
-        }, saveDataWithDelay, true);
+      $scope.$watch(function () {
+        return SettingsHome.data;
+      }, saveDataWithDelay, true);
 
-      SettingsHome.gotToPage = function(){
+      SettingsHome.gotToPage = function () {
         window.open('https://app.smooch.io/signup', '_blank');
       };
     }])

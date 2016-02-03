@@ -22,6 +22,7 @@ module.exports = function(config) {
             'test/assets/bower_components/angular-bootstrap/ui-bootstrap.min.js',
             'test/assets/bower_components/angular-mocks/angular-mocks.js',
             './test/assets/buildfire.js',
+            './test/assets/smooch.min.js',
             'test/widget/*.js',
             'test/control/settings/**/*.js',
             'control/settings/*.js',

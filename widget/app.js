@@ -72,9 +72,9 @@
         WidgetHome.init();
 
         WidgetHome.onUpdateCallback = function (event) {
-
           setTimeout(function () {
             if (event) {
+              Smooch.destroy();
               WidgetHome.data = event.data;
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
               Buildfire.spinner.show();
