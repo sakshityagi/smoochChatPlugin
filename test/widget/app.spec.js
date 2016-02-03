@@ -62,13 +62,14 @@ describe('Unit: smoochChatPluginWidget app', function () {
 
       it('it should pass if WidgetHome.success is called for error', function () {
         WidgetHome.data = null;
-        var result  = {
+        var result = {data:{
           settings:"hi"
+         }
         };
         WidgetHome.data = result;
         WidgetHome.init();
-        WidgetHome.success();
-      });
+        WidgetHome.success(result);
+       });
       it('It will test the defined methods of WidgetHome.error(err) where err:code is having status', function () {
         var err ={
           code:null
