@@ -74,7 +74,6 @@
         WidgetHome.onUpdateCallback = function (event) {
           setTimeout(function () {
             if (event) {
-              Smooch.destroy();
               WidgetHome.data = event.data;
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
               Buildfire.spinner.show();
@@ -90,6 +89,7 @@
                   $('#sk-header').click(function(event){
                     event.stopPropagation();
                   });
+                  $('.send').off('click');
                   if(WidgetHome.data.design == undefined){
                     WidgetHome.data.design = {};
 
@@ -104,7 +104,7 @@
                   $scope.$digest();
                 }
                 Smooch.on('message:sent', function(message) {
-                  WidgetHome.className = "color-"+WidgetHome.data.design.color
+                  WidgetHome.className = "color-"+WidgetHome.data.design.color;
                   setTimeout(function(){
                     $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
 
@@ -122,6 +122,17 @@
           }, 0);
         };
 
-        DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
+          DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
+
+          Buildfire.messaging.onReceivedMessage = function (event) {
+
+              if (event && event.name == STATUS_CODE.UPDATED) {
+                  $('.send').on('click', function (event) {
+                      event.stopPropagation();
+                      // execute a bunch of action to preform
+                  });
+              }
+          }
+
       }]);
 })(window.angular);

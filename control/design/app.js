@@ -59,6 +59,9 @@
           DesignHome.error = function (err) {
           console.error('Error while saving data : ', err);
         };
+
+        Buildfire.messaging.sendMessageToWidget({'name': STATUS_CODE.UPDATED, 'color': DesignHome.data.design.color});
+
         DataStore.save(newObj, tag).then(DesignHome.success, DesignHome.error);
       };
 
