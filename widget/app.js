@@ -34,6 +34,9 @@
                   $('#sk-header').click(function(event){
                     event.stopPropagation();
                   });
+                    $("#sk-footer form a").bind('taphold', function(event) {
+                        event.preventDefault();
+                    });
                   WidgetHome.className = "color-"+WidgetHome.data.design.color
                   $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
                     return (css.match (/\color-\S+/g) || []).join(' ');
@@ -89,6 +92,9 @@
                   $('#sk-header').click(function(event){
                     event.stopPropagation();
                   });
+                    $("#sk-footer form a").bind('taphold', function(event) {
+                        event.preventDefault();
+                    });
                   $('.send').off('click');
                   if(WidgetHome.data.design == undefined){
                     WidgetHome.data.design = {};
@@ -131,8 +137,10 @@
                       event.stopPropagation();
                       // execute a bunch of action to preform
                   });
+                  $("#sk-footer form a").bind('taphold', function(event) {
+                      event.preventDefault();
+                  });
               }
-          }
-
+          };
       }]);
 })(window.angular);
