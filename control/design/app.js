@@ -27,6 +27,7 @@
 
       /*Init method call, it will bring all the pre saved data*/
         DesignHome.init = function () {
+            DesignHome.saveDataCompletion = false;
           DesignHome.success = function (result) {
           console.info('init success result:', result);
           if (result) {
@@ -55,16 +56,22 @@
         }
           DesignHome.success = function (result) {
           console.info('Saved data result: ', result);
+              DesignHome.saveDataCompletion = false;
         };
           DesignHome.error = function (err) {
           console.error('Error while saving data : ', err);
+              DesignHome.saveDataCompletion = false;
         };
-        DataStore.save(newObj, tag).then(DesignHome.success, DesignHome.error);
+            Buildfire.messaging.sendMessageToWidget({'name': STATUS_CODE.UPDATED, 'color': DesignHome.data.design.color});
+            DataStore.save(newObj, tag).then(DesignHome.success, DesignHome.error);
       };
 
         DesignHome.changeColor = function (color) {
-          DesignHome.data.design.color = color;
-           DesignHome.saveData(JSON.parse(angular.toJson(DesignHome.data)), TAG_NAMES.SMOOCH_CHAT_INFO);
+            if(!DesignHome.saveDataCompletion) {
+                DesignHome.saveDataCompletion = true;
+                DesignHome.data.design.color = color;
+                DesignHome.saveData(JSON.parse(angular.toJson(DesignHome.data)), TAG_NAMES.SMOOCH_CHAT_INFO);
+            }
       };
 
         DesignHome.gotToPage = function(){
