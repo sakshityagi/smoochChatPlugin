@@ -34,7 +34,12 @@
                       WidgetHome.instanceId = data.instanceId;
                       initObj.userId = data.instanceId;
                   }
-
+                  Smooch.on('message:sent', function(message) {
+                      WidgetHome.className = "color-"+WidgetHome.data.design.color;
+                      setTimeout(function(){
+                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
+                      },0);
+                  });
                       var smoochApp = Smooch.init(initObj);
 
                       smoochApp.then(function (res) {
@@ -48,22 +53,15 @@
                                   event.preventDefault();
                               });
                               WidgetHome.className = "color-"+WidgetHome.data.design.color;
-                              $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
-                                  return (css.match (/\color-\S+/g) || []).join(' ');
+                              $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
+                                  return (css.match (/\bcolor-\S+/g) || []).join(' ');
                               });
-                              $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
+                              $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
 
                               Smooch.open();
                               $scope.$digest();
                           }
 
-                          Smooch.on('message:sent', function(message) {
-                              WidgetHome.className = "color-"+WidgetHome.data.design.color;
-                              setTimeout(function(){
-                                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
-
-                              },0);
-                          });
 
                       }, function (err) {
                           console.log("??????????????", err);
@@ -84,77 +82,20 @@
         };
         WidgetHome.init();
 
-        WidgetHome.onUpdateCallback = function (event) {
-          setTimeout(function () {
-            if (event) {
-                WidgetHome.data = event.data;
-                WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-                Buildfire.spinner.show();
-                var initObj = {
-                    appToken: WidgetHome.apiKey,
-                    customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
-                };
-                if (WidgetHome.instanceId) {
-                    initObj.userId = WidgetHome.instanceId;
-                }
-                if (!WidgetHome.updateColorTheme) {
-                    WidgetHome.updateColorTheme = true;
-                    var smoochApp = Smooch.init(initObj);
-                    smoochApp.then(function (res) {
-                        console.log("??????????????onUpdate", res);
-                        Buildfire.spinner.hide();
-                        WidgetHome.updateColorTheme = false;
-                        if (res && res._id) {
-                            WidgetHome.invalidApiKey = false;
-                            $('#sk-header').click(function (event) {
-                                event.stopPropagation();
-                            });
-                            $("#sk-footer form a").bind('taphold', function (event) {
-                                event.preventDefault();
-                            });
-                            $('.send').off('click');
-                            if (WidgetHome.data.design == undefined) {
-                                WidgetHome.data.design = {};
-
-                                WidgetHome.data.design.color = "5d8aa8";
-                            }
-                            WidgetHome.className = "color-" + WidgetHome.data.design.color || "5d8aa8";
-                            $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
-                                return (css.match(/\color-\S+/g) || []).join(' ');
-                            });
-                            $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
-                            Smooch.open();
-                            $scope.$digest();
-                        }
-                        Smooch.on('message:sent', function (message) {
-                            WidgetHome.className = "color-" + WidgetHome.data.design.color;
-                            setTimeout(function () {
-                                $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
-
-                            }, 0);
-                        });
-                    }, function (err) {
-                        WidgetHome.invalidApiKey = true;
-                        console.log("??????????????e", err);
-                        Buildfire.spinner.hide();
-                        $scope.$digest();
-                        Smooch.destroy();
-                    });
-                    $scope.$digest();
-                }
-            }
-          }, 0);
-        };
-
-          DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
-
           Buildfire.messaging.onReceivedMessage = function (event) {
 
               if (event && event.name == STATUS_CODE.UPDATED) {
-                  $('.send').on('click', function (event) {
+                  /*$('.send').on('click', function (event) {
                       event.stopPropagation();
                       // execute a bunch of action to preform
+                  });*/
+                  WidgetHome.data.design.color = event.color;
+                  var color = 'color-' + event.color;
+//                  $('#sk-container').find('#sk-wrapper').find('.sk-msg').css('background', color);
+                  $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
+                      return (css.match(/\bcolor-\S+/g) || []).join(' ');
                   });
+                  $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(color);
                   $("#sk-footer form a").bind('taphold', function(event) {
                       event.preventDefault();
                   });
