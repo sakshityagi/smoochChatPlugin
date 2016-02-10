@@ -71,6 +71,7 @@
         }
         SettingsHome.success = function (result) {
           console.info('Saved data result: ', result);
+          Buildfire.messaging.sendMessageToWidget({'name': STATUS_CODE.SETTINGS_UPDATED, 'data': result.data});
         };
         SettingsHome.error = function (err) {
           console.error('Error while saving data : ', err);

@@ -39,56 +39,10 @@
                             WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
                             Buildfire.spinner.show();
                             if(WidgetHome.apiKey)
-                                Buildfire.getContext(function (err, data) {
-                                var initObj = {
-                                    appToken: WidgetHome.apiKey,
-                                    customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
-                                };
-                                if (data && data.instanceId) {
-                                    WidgetHome.instanceId = data.instanceId;
-                                    initObj.userId = data.instanceId;
-                                }
-                                Smooch.on('message:sent', function (message) {
-                                    WidgetHome.className = "color-" + WidgetHome.data.design.color;
-                                    setTimeout(function () {
-                                        $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
-                                    }, 0);
-                                });
-                                var smoochApp = Smooch.init(initObj);
-
-                                smoochApp.then(function (res) {
-                                    Buildfire.spinner.hide();
-                                    if (res && res._id) {
-                                        WidgetHome.invalidApiKey = false;
-                                        $('#sk-header').click(function (event) {
-                                            event.stopPropagation();
-                                        });
-                                        $("#sk-footer form a").bind('taphold', function (event) {
-                                            event.preventDefault();
-                                        });
-                                        WidgetHome.className = "color-" + WidgetHome.data.design.color;
-                                        $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
-                                            return (css.match(/\bcolor-\S+/g) || []).join(' ');
-                                        });
-                                        $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
-
-                                        Smooch.open();
-                                        $scope.$digest();
-                                    }
-
-
-                                }, function (err) {
-                                    console.log("??????????????", err);
-                                    if (err && err.response && err.response.status == 401) {
-                                        Buildfire.spinner.hide();
-                                        WidgetHome.invalidApiKey = true;
-                                        $scope.$digest();
-                                    }
-                                    Smooch.destroy();
-                                });
-                            });
+                                initializeSmooch();
                         }
                     };
+
                     WidgetHome.error = function (err) {
                         if (err && err.code !== STATUS_CODE.NOT_FOUND) {
                             console.error('Error while getting data', err);
@@ -98,23 +52,80 @@
                 };
                 WidgetHome.init();
 
-                Buildfire.messaging.onReceivedMessage = function (event) {
+          function initializeSmooch() {
+              Buildfire.getContext(function (err, data) {
+                  var initObj = {
+                      appToken: WidgetHome.apiKey,
+                      customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
+                  };
+                  if (data && data.instanceId) {
+                      WidgetHome.instanceId = data.instanceId;
+                      initObj.userId = data.instanceId;
+                  }
+                  Smooch.on('message:sent', function (message) {
+                      WidgetHome.className = "color-" + WidgetHome.data.design.color;
+                      setTimeout(function () {
+                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
+                      }, 0);
+                  });
+                  var smoochApp = Smooch.init(initObj);
 
-                    if (event && event.name == STATUS_CODE.UPDATED) {
-                        /*$('.send').on('click', function (event) {
-                         event.stopPropagation();
-                         // execute a bunch of action to preform
-                         });*/
-                        WidgetHome.data.design.color = event.color;
-                        var color = 'color-' + event.color;
-//                  $('#sk-container').find('#sk-wrapper').find('.sk-msg').css('background', color);
-                  $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
-                      return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                  smoochApp.then(function (res) {
+                      Buildfire.spinner.hide();
+                      if (res && res._id) {
+                          WidgetHome.invalidApiKey = false;
+                          $('#sk-header').click(function (event) {
+                              event.stopPropagation();
+                          });
+                          $("#sk-footer form a").bind('taphold', function (event) {
+                              event.preventDefault();
+                          });
+                          if (!WidgetHome.data.design) {
+                              WidgetHome.data.design = {};
+                              WidgetHome.data.design.color = '5d8aa8';
+                          }
+                          WidgetHome.className = "color-" + WidgetHome.data.design.color;
+                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
+                              return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                          });
+                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
+
+                          Smooch.open();
+                          $scope.$digest();
+                      }
+
+
+                  }, function (err) {
+                      console.log("??????????????", err);
+                      if (err && err.response && err.response.status == 401) {
+                          Buildfire.spinner.hide();
+                          WidgetHome.invalidApiKey = true;
+                          $scope.$digest();
+                      }
+                      Smooch.destroy();
                   });
-                  $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(color);
-                  $("#sk-footer form a").bind('taphold', function(event) {
-                      event.preventDefault();
-                  });
+              });
+          }
+
+          Buildfire.messaging.onReceivedMessage = function (event) {
+              switch (event && event.name) {
+                  case STATUS_CODE.UPDATED :
+                      WidgetHome.data = event.data;
+                      var color = 'color-' + WidgetHome.data.design.color;
+                      $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
+                          return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                      });
+                      $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(color);
+                      $("#sk-footer form a").bind('taphold', function (event) {
+                          event.preventDefault();
+                      });
+                      break;
+                  case STATUS_CODE.SETTINGS_UPDATED :
+                      WidgetHome.data = event.data;
+                      WidgetHome.apiKey = WidgetHome.data && WidgetHome.data.settings && WidgetHome.data.settings.apiKey;
+                      if(WidgetHome.apiKey)
+                        initializeSmooch();
+                      break;
               }
           };
 

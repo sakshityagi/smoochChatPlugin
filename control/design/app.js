@@ -57,12 +57,12 @@
           DesignHome.success = function (result) {
           console.info('Saved data result: ', result);
               DesignHome.saveDataCompletion = false;
+              Buildfire.messaging.sendMessageToWidget({'name': STATUS_CODE.UPDATED, 'data': result.data});
         };
           DesignHome.error = function (err) {
           console.error('Error while saving data : ', err);
               DesignHome.saveDataCompletion = false;
         };
-            Buildfire.messaging.sendMessageToWidget({'name': STATUS_CODE.UPDATED, 'color': DesignHome.data.design.color});
             DataStore.save(newObj, tag).then(DesignHome.success, DesignHome.error);
       };
 
