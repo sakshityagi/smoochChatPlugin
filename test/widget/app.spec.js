@@ -83,15 +83,6 @@ describe('Unit: smoochChatPluginWidget app', function () {
         };
         WidgetHome.error(err);
       });
-      it('it should pass if  WidgetHome.onUpdateCallback is called', function () {
-        var event = {
-          tag: TAG_NAMES.SMOOCH_CHAT_INFO
-        };
-        WidgetHome.data = {
-          design: ""
-        };
-        WidgetHome.onUpdateCallback(event);
-      });
     });
   });
 });

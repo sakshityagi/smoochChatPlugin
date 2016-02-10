@@ -28,8 +28,7 @@
 <div ng-controller="SettingsHomeCtrl as SettingsHome">
   <div class="item clearfix row" ng-if="SettingsHome.data">
     <div class="main pull-right col-md-9">
-      <div class="alert alert-danger alert-sm text-center"
-           ng-if="!SettingsHome.data.settings.apiKey">Please enter Smooch Chat API Key
+      <div class="alert alert-danger alert-sm text-center" ng-if="SettingsHome.getAPIKeyStatus() != 'true'">{{SettingsHome.getAPIKeyStatus()}}
       </div>
     </div>
   </div>

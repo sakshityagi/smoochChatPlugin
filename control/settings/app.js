@@ -18,7 +18,7 @@
       //    }
       //});
 
-      SettingsHome.data = {
+      var _data = {
         settings: {
           "apiKey": "",
           "headerText": ""
@@ -33,6 +33,10 @@
         SettingsHome.masterData = angular.copy(data);
       };
 
+          SettingsHome.getAPIKeyStatus = function () {
+              return SettingsHome.data && SettingsHome.data.settings && SettingsHome.data.settings.apiKey ? "true" : 'Please enter Smooch Chat API Key';
+          };
+
       /*Init method call, it will bring all the pre saved data*/
       SettingsHome.init = function () {
         SettingsHome.success = function (result) {
@@ -40,7 +44,7 @@
           if (result) {
             SettingsHome.data = result.data;
             if (!SettingsHome.data.settings)
-              SettingsHome.data.settings = {};
+              SettingsHome.data.settings = {"apiKey": "", "headerText": ""};
             SettingsHome.updateMasterItem(SettingsHome.data);
           }
         };
@@ -49,6 +53,11 @@
             console.error('Error while getting data', err);
           }
           else if (err && err.code === STATUS_CODE.NOT_FOUND) {
+            if(!SettingsHome.data) {
+                SettingsHome.data = angular.copy(_data);
+            } else if(SettingsHome.data && !SettingsHome.data.settings) {
+                SettingsHome.data.settings = {"apiKey": "", "headerText": ""};
+            }
             SettingsHome.saveData(JSON.parse(angular.toJson(SettingsHome.data)), TAG_NAMES.SMOOCH_CHAT_INFO);
           }
         };
@@ -62,6 +71,7 @@
         }
         SettingsHome.success = function (result) {
           console.info('Saved data result: ', result);
+          Buildfire.messaging.sendMessageToWidget({'name': STATUS_CODE.SETTINGS_UPDATED, 'data': result.data});
         };
         SettingsHome.error = function (err) {
           console.error('Error while saving data : ', err);

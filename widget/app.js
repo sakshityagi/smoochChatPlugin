@@ -1,164 +1,172 @@
 'use strict';
 
 (function (angular) {
-  angular.module('smoochChatPluginWidget', ['ui.bootstrap'])
-    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE','$rootScope',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $rootScope) {
+  angular.module('smoochChatPluginWidget', ['ui.bootstrap','smoochChatModals'])
+    .run(function($window, $rootScope) {
+        $rootScope.online = navigator.onLine;
+        $window.addEventListener("offline", function () {
+            $rootScope.$apply(function() {
+                $rootScope.online = false;
+            });
+        }, false);
+        $window.addEventListener("online", function () {
+            $rootScope.$apply(function() {
+                $rootScope.online = true;
+            });
+        }, false);
+    })
+    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE','$rootScope','$modal','$timeout',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, $rootScope,$modal,$timeout) {
         var WidgetHome = this;
         WidgetHome.data = null;
         WidgetHome.invalidApiKey = false;
         WidgetHome.apiKey = "";
         WidgetHome.instanceId;
 
-        /*Init method call, it will bring all the pre saved data*/
-        WidgetHome.init = function () {
-            WidgetHome.updateColorTheme = false;
-          WidgetHome.success = function (result) {
-            console.info('init success result:', result);
-            if (result) {
-              WidgetHome.data = result.data;
-              if (!WidgetHome.data.settings)
-                WidgetHome.data.settings = {};
-              if(!WidgetHome.data.design){
-                WidgetHome.data.design = {};
-                WidgetHome.data.design.color = '5d8aa8';
-              }
-              WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-              Buildfire.spinner.show();
+                /*Init method call, it will bring all the pre saved data*/
+                WidgetHome.init = function () {
+                    WidgetHome.updateColorTheme = false;
+                    WidgetHome.success = function (result) {
+                        console.info('init success result:', result);
+                        if (result) {
+                            WidgetHome.data = result.data;
+                            if (!WidgetHome.data.settings)
+                                WidgetHome.data.settings = {};
+                            if (!WidgetHome.data.design) {
+                                WidgetHome.data.design = {};
+                                WidgetHome.data.design.color = '5d8aa8';
+                            }
+                            WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
+                            Buildfire.spinner.show();
+                            if(WidgetHome.apiKey)
+                                initializeSmooch();
+                        }
+                    };
+
+                    WidgetHome.error = function (err) {
+                        if (err && err.code !== STATUS_CODE.NOT_FOUND) {
+                            console.error('Error while getting data', err);
+                        }
+                    };
+                    DataStore.get(TAG_NAMES.SMOOCH_CHAT_INFO).then(WidgetHome.success, WidgetHome.error);
+                };
+                WidgetHome.init();
+
+          function initializeSmooch() {
               Buildfire.getContext(function (err, data) {
                   var initObj = {
                       appToken: WidgetHome.apiKey,
                       customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
                   };
-                  if(data && data.instanceId) {
+                  if (data && data.instanceId) {
                       WidgetHome.instanceId = data.instanceId;
                       initObj.userId = data.instanceId;
                   }
+                  Smooch.on('message:sent', function (message) {
+                      WidgetHome.className = "color-" + WidgetHome.data.design.color;
+                      setTimeout(function () {
+                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
+                      }, 0);
+                  });
+                  var smoochApp = Smooch.init(initObj);
 
-                      var smoochApp = Smooch.init(initObj);
-
-                      smoochApp.then(function (res) {
-                          Buildfire.spinner.hide();
-                          if (res && res._id) {
-                              WidgetHome.invalidApiKey = false;
-                              $('#sk-header').click(function(event){
-                                  event.stopPropagation();
-                              });
-                              $("#sk-footer form a").bind('taphold', function(event) {
-                                  event.preventDefault();
-                              });
-                              WidgetHome.className = "color-"+WidgetHome.data.design.color;
-                              $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
-                                  return (css.match (/\color-\S+/g) || []).join(' ');
-                              });
-                              $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
-
-                              Smooch.open();
-                              $scope.$digest();
-                          }
-
-                          Smooch.on('message:sent', function(message) {
-                              WidgetHome.className = "color-"+WidgetHome.data.design.color;
-                              setTimeout(function(){
-                                  $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
-
-                              },0);
+                  smoochApp.then(function (res) {
+                      Buildfire.spinner.hide();
+                      if (res && res._id) {
+                          WidgetHome.invalidApiKey = false;
+                          $('#sk-header').click(function (event) {
+                              event.stopPropagation();
                           });
+                          $("#sk-footer form a").bind('taphold', function (event) {
+                              event.preventDefault();
+                          });
+                          if (!WidgetHome.data.design) {
+                              WidgetHome.data.design = {};
+                              WidgetHome.data.design.color = '5d8aa8';
+                          }
+                          WidgetHome.className = "color-" + WidgetHome.data.design.color;
+                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
+                              return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                          });
+                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
 
-                      }, function (err) {
-                          console.log("??????????????", err);
+                          Smooch.open();
+                          $scope.$digest();
+                      }
+
+
+                  }, function (err) {
+                      console.log("??????????????", err);
+                      if (err && err.response && err.response.status == 401) {
                           Buildfire.spinner.hide();
                           WidgetHome.invalidApiKey = true;
                           $scope.$digest();
-                          Smooch.destroy();
-                      });
+                      }
+                      Smooch.destroy();
+                  });
               });
-            }
-          };
-          WidgetHome.error = function (err) {
-            if (err && err.code !== STATUS_CODE.NOT_FOUND) {
-              console.error('Error while getting data', err);
-            }
-          };
-          DataStore.get(TAG_NAMES.SMOOCH_CHAT_INFO).then(WidgetHome.success, WidgetHome.error);
-        };
-        WidgetHome.init();
-
-        WidgetHome.onUpdateCallback = function (event) {
-          setTimeout(function () {
-            if (event) {
-                WidgetHome.data = event.data;
-                WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-                Buildfire.spinner.show();
-                var initObj = {
-                    appToken: WidgetHome.apiKey,
-                    customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
-                };
-                if (WidgetHome.instanceId) {
-                    initObj.userId = WidgetHome.instanceId;
-                }
-                if (!WidgetHome.updateColorTheme) {
-                    WidgetHome.updateColorTheme = true;
-                    var smoochApp = Smooch.init(initObj);
-                    smoochApp.then(function (res) {
-                        console.log("??????????????onUpdate", res);
-                        Buildfire.spinner.hide();
-                        WidgetHome.updateColorTheme = false;
-                        if (res && res._id) {
-                            WidgetHome.invalidApiKey = false;
-                            $('#sk-header').click(function (event) {
-                                event.stopPropagation();
-                            });
-                            $("#sk-footer form a").bind('taphold', function (event) {
-                                event.preventDefault();
-                            });
-                            $('.send').off('click');
-                            if (WidgetHome.data.design == undefined) {
-                                WidgetHome.data.design = {};
-
-                                WidgetHome.data.design.color = "5d8aa8";
-                            }
-                            WidgetHome.className = "color-" + WidgetHome.data.design.color || "5d8aa8";
-                            $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').removeClass(function (index, css) {
-                                return (css.match(/\color-\S+/g) || []).join(' ');
-                            });
-                            $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
-                            Smooch.open();
-                            $scope.$digest();
-                        }
-                        Smooch.on('message:sent', function (message) {
-                            WidgetHome.className = "color-" + WidgetHome.data.design.color;
-                            setTimeout(function () {
-                                $('#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg').addClass(WidgetHome.className);
-
-                            }, 0);
-                        });
-                    }, function (err) {
-                        WidgetHome.invalidApiKey = true;
-                        console.log("??????????????e", err);
-                        Buildfire.spinner.hide();
-                        $scope.$digest();
-                        Smooch.destroy();
-                    });
-                    $scope.$digest();
-                }
-            }
-          }, 0);
-        };
-
-          DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
+          }
 
           Buildfire.messaging.onReceivedMessage = function (event) {
-
-              if (event && event.name == STATUS_CODE.UPDATED) {
-                  $('.send').on('click', function (event) {
-                      event.stopPropagation();
-                      // execute a bunch of action to preform
-                  });
-                  $("#sk-footer form a").bind('taphold', function(event) {
-                      event.preventDefault();
-                  });
+              switch (event && event.name) {
+                  case STATUS_CODE.UPDATED :
+                      WidgetHome.data = event.data;
+                      var color = 'color-' + WidgetHome.data.design.color;
+                      $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
+                          return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                      });
+                      $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(color);
+                      $("#sk-footer form a").bind('taphold', function (event) {
+                          event.preventDefault();
+                      });
+                      break;
+                  case STATUS_CODE.SETTINGS_UPDATED :
+                      WidgetHome.data = event.data;
+                      WidgetHome.apiKey = WidgetHome.data && WidgetHome.data.settings && WidgetHome.data.settings.apiKey;
+                      if(WidgetHome.apiKey)
+                        initializeSmooch();
+                      break;
               }
           };
+
+          $scope.$watch('online', function(newStatus) {
+             if(newStatus){
+                 $('.send').off("click");
+                 if(WidgetHome && WidgetHome.data && WidgetHome.data.design && WidgetHome.data.design.color){
+                     var color = 'color-' +  WidgetHome.data.design.color;
+                     $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
+                         return (css.match(/\bcolor-\S+/g) || []).join(' ');
+                     });
+                     $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(color);
+                 }
+             }else{
+                 $('.send').on("click", function (e) {
+
+                     console.log('------------->INTERNET CONNECTION PROBLEM')
+                     $modal
+                         .open({
+                             template: [
+                                 '<div class="padded clearfix">',
+                                 '<div class="content text-center">',
+                                 '<p>No internet connection was found. please try again later</p>',
+                                 '<a class="margin-zero"  ng-click="ok(option)">OK</a>',
+                                 '</div>',
+                                 '</div></div>'
+                             ].join(''),
+                             controller: 'MoreOptionsModalPopupCtrl',
+                             controllerAs: 'MoreOptionsPopup',
+                             size: 'sm'
+
+                         });
+                     $timeout(function(){
+                         $('.modal').css('z-index',9999);
+                         $('.modal-backdrop').css('z-index',9999);
+
+                     },0);
+
+                     e.stopPropagation();
+                 });
+             }
+          });
       }]);
 })(window.angular);

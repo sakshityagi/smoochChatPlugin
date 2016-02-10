@@ -8,6 +8,7 @@
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',
       UPDATED: 'updated',
+      SETTINGS_UPDATED: 'SETTINGS_UPDATED',
       NOT_FOUND: 'NOTFOUND',
       UNDEFINED_DATA: 'UNDEFINED_DATA',
       UNDEFINED_OPTIONS: 'UNDEFINED_OPTIONS',
