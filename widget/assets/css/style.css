@@ -10,6 +10,10 @@
     display: none;
 }
 
+#sk-holder #sk-container #sk-header {
+    cursor: auto !important;
+}
+
 #sk-footer form { -webkit-touch-callout: none !important; }
 #sk-footer form a { -webkit-user-select: none !important; }
 
@@ -17,6 +21,7 @@
     height: 59px !important;
     line-height: 55px !important;
 }
+
 /*// To recolor bubbles to orange*/
 
 /*#sk-holder #sk-container #sk-conversation .sk-row.sk-right-row .sk-msg{*/
