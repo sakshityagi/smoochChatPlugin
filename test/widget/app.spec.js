@@ -34,7 +34,14 @@ describe('Unit: smoochChatPluginWidget app', function () {
             return {}
           }
 
-        }
+        }, messaging: {
+              onReceivedMessage: function (event) {
+
+              }
+          }, getContext: function (cb) {
+
+          }
+
       };
     }));
 
