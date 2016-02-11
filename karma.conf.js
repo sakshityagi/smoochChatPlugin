@@ -25,6 +25,11 @@ module.exports = function(config) {
             './test/assets/smooch.min.js',
             'test/widget/*.js',
             'test/control/settings/**/*.js',
+//            './control/design/**/*.js',
+//            './control/content/**/*.js',
+            'test/control/design/**/*.js',
+            'control/design/*.js',
+            'control/design/**/*.js',
             'control/settings/*.js',
             'control/settings/**/*.js',
             'widget/**/*.js'
@@ -41,7 +46,9 @@ module.exports = function(config) {
             'widget/**/!(js)/*.js': ['coverage'],
             'widget/*.js': ['coverage'],
             'control/settings/**/!(js)/*.js': ['coverage'],
-            'control/settings/*.js': ['coverage']
+            'control/settings/*.js': ['coverage'],
+            'control/design/**/!(js)/*.js': ['coverage'],
+            'control/design/*.js': ['coverage']
         },
         plugins: [
             'karma-phantomjs-launcher',
