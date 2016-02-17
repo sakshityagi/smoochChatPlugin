@@ -32,10 +32,6 @@
                             WidgetHome.data = result.data;
                             if (!WidgetHome.data.settings)
                                 WidgetHome.data.settings = {};
-                            if (!WidgetHome.data.design) {
-                                WidgetHome.data.design = {};
-                                WidgetHome.data.design.color = '5d8aa8';
-                            }
                             WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
                             Buildfire.spinner.show();
                             if(WidgetHome.apiKey)
@@ -62,12 +58,6 @@
                       WidgetHome.instanceId = data.instanceId;
                       initObj.userId = data.instanceId;
                   }
-                  Smooch.on('message:sent', function (message) {
-                      WidgetHome.className = "color-" + WidgetHome.data.design.color;
-                      setTimeout(function () {
-                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
-                      }, 0);
-                  });
                   var smoochApp = Smooch.init(initObj);
 
                   smoochApp.then(function (res) {
@@ -80,15 +70,6 @@
                           $("#sk-footer form a").bind('taphold', function (event) {
                               event.preventDefault();
                           });
-                          if (!WidgetHome.data.design) {
-                              WidgetHome.data.design = {};
-                              WidgetHome.data.design.color = '5d8aa8';
-                          }
-                          WidgetHome.className = "color-" + WidgetHome.data.design.color;
-                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
-                              return (css.match(/\bcolor-\S+/g) || []).join(' ');
-                          });
-                          $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(WidgetHome.className);
 
                           Smooch.open();
                           $scope.$digest();
@@ -111,11 +92,6 @@
               switch (event && event.name) {
                   case STATUS_CODE.UPDATED :
                       WidgetHome.data = event.data;
-                      var color = 'color-' + WidgetHome.data.design.color;
-                      $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
-                          return (css.match(/\bcolor-\S+/g) || []).join(' ');
-                      });
-                      $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(color);
                       $("#sk-footer form a").bind('taphold', function (event) {
                           event.preventDefault();
                       });
@@ -132,17 +108,10 @@
           $scope.$watch('online', function(newStatus) {
              if(newStatus){
                  $('.send').off("click");
-                 if(WidgetHome && WidgetHome.data && WidgetHome.data.design && WidgetHome.data.design.color){
-                     var color = 'color-' +  WidgetHome.data.design.color;
-                     $('#sk-container').find('#sk-wrapper').find('.sk-msg').removeClass(function (index, css) {
-                         return (css.match(/\bcolor-\S+/g) || []).join(' ');
-                     });
-                     $('#sk-container').find('#sk-wrapper').find('.sk-msg').addClass(color);
-                 }
              }else{
                  $('.send').on("click", function (e) {
 
-                     console.log('------------->INTERNET CONNECTION PROBLEM')
+                     console.log('------------->INTERNET CONNECTION PROBLEM');
                      $modal
                          .open({
                              template: [
