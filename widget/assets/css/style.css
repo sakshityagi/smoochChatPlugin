@@ -14,7 +14,7 @@
 }
 
 #sk-footer form { -webkit-touch-callout: none !important; }
-#sk-footer form a { -webkit-user-select: none !important; }
+#sk-footer form a { -webkit-user-select: initial !important; }
 
 .screens .screen.layouticon a, .screens .layoutgrid .layouticon {
     height: 59px !important;
