@@ -2,9 +2,6 @@ describe('Unit: smoochChatPluginWidget app', function () {
   describe('Unit: app', function () {
     beforeEach(module('smoochChatPluginWidget'));
     var location, route, rootScope;
-    beforeEach(inject(function () {
-
-    }));
     var WidgetHome, scope, $rootScope, $controller, Buildfire, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE, q;
 
     beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_) {
@@ -35,7 +32,7 @@ describe('Unit: smoochChatPluginWidget app', function () {
           }
 
         }, messaging: {
-              onReceivedMessage: function (event) {
+              onReceivedMessage: function (eventObj) {
 
               }
           }, getContext: function (cb) {
@@ -57,11 +54,16 @@ describe('Unit: smoochChatPluginWidget app', function () {
     });
     describe('It will test the defined methods', function () {
 
-      it('it should pass if WidgetHome.init is called for success', function () {
-        var result = {};
+      it('it should pass if WidgetHome.init is called for success having no settings object', function () {
+        var result = {data: {}};
         WidgetHome.init();
-        WidgetHome.success()
+        WidgetHome.success(result);
       });
+        it('it should pass if WidgetHome.init is called for success having settings apiKey', function () {
+            var result = {data: {settings: {apiKey: 'safds3433dfsfa'}}};
+            WidgetHome.init();
+            WidgetHome.success(result);
+        });
       it('it should pass if WidgetHome.init is called for error', function () {
         WidgetHome.init();
         WidgetHome.error()
@@ -83,6 +85,17 @@ describe('Unit: smoochChatPluginWidget app', function () {
         };
         WidgetHome.error(err);
       });
+        it('It will trigger buildfire.messaging.onReceiveMessage with STATUS_CODE.SETTINGS_UPDATED', function () {
+            var eventObj = {name: STATUS_CODE.SETTINGS_UPDATED, data: {settings: {apiKey: 'skdf34ljsdjl'}}};
+            Buildfire.messaging.onReceivedMessage(eventObj);
+        });
+        it('It will trigger buildfire.messaging.onReceiveMessage with STATUS_CODE.UPDATED', function () {
+            var eventObj = {name: STATUS_CODE.UPDATED, data: {settings: {apiKey: 'skdf34ljsdjl'}}};
+            Buildfire.messaging.onReceivedMessage(eventObj);
+        });
+        it('It will trigger $watch', function () {
+            scope.$digest();
+        });
     });
   });
 });
