@@ -101,7 +101,7 @@
 /* For IOS input focus issue
 */
 
-input[type=text] {
+input[type=text], input[type=password], input[type=email], #sk-holder #sk-container .input {
     -webkit-user-select: auto !important;
     -khtml-user-select: auto !important;
     -moz-user-select: auto !important;
