@@ -108,3 +108,7 @@ input[type=text], input[type=password], input[type=email], #sk-holder #sk-contai
     -ms-user-select: auto !important;
     user-select: auto !important;
 }
+
+#sk-holder span {
+    color: #333 !important;
+}
