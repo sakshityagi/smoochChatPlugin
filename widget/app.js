@@ -119,6 +119,8 @@
               WidgetHome.apiKey = WidgetHome.data && WidgetHome.data.settings && WidgetHome.data.settings.apiKey;
               if (WidgetHome.apiKey)
                 initializeSmooch();
+              else
+                Smooch.destroy();
               break;
           }
         };

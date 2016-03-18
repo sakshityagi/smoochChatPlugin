@@ -66,6 +66,7 @@
         }
         SettingsHome.success = function (result) {
           console.info('Saved data result: ', result);
+          SettingsHome.updateMasterItem(newObj);
           Buildfire.messaging.sendMessageToWidget({
             'name': STATUS_CODE.SETTINGS_UPDATED,
             'data': result.data
