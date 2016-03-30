@@ -109,6 +109,9 @@
           switch (event && event.name) {
             case STATUS_CODE.UPDATED :
               WidgetHome.data = event.data;
+              $('#sk-header').click(function (event) {
+                event.stopPropagation();
+              });
               $("#sk-footer form a").bind('taphold', function (event) {
                 event.preventDefault();
               });
@@ -157,5 +160,15 @@
             });
           }
         });
+
+        var loginCallback = function () {
+          if (WidgetHome.apiKey)
+            initializeSmooch();
+        };
+
+        /**
+         * onLogin() listens when user logins using buildfire.auth api.
+         */
+        Buildfire.auth.onLogin(loginCallback);
       }]);
 })(window.angular);
