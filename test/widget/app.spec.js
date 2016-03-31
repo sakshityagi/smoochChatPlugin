@@ -37,7 +37,12 @@ describe('Unit: smoochChatPluginWidget app', function () {
               }
           }, getContext: function (cb) {
 
+          },
+        auth : {
+          onLogin : function(){
+
           }
+        }
 
       };
     }));

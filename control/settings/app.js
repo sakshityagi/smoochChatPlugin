@@ -30,7 +30,8 @@
       SettingsHome.init = function () {
         SettingsHome.success = function (result) {
           console.info('init success result:', result);
-          if (result.data && result.id) {
+          SettingsHome.data = {};
+          if (result.data) {
             SettingsHome.data = result.data;
             if (!SettingsHome.data.settings)
               SettingsHome.data.settings = {
@@ -38,17 +39,6 @@
                 "headerText": ""
               };
             SettingsHome.updateMasterItem(SettingsHome.data);
-          } else {
-            var dummyData = {
-              "apiKey": "630vy96ywcm2d9iqs19y6b5xa",
-              "headerText": "How can we help?"
-            };
-
-            SettingsHome.data = {
-              settings: {}
-            };
-            SettingsHome.data.settings.apiKey = dummyData.apiKey;
-            SettingsHome.data.settings.headerText = dummyData.headerText;
           }
         };
         SettingsHome.error = function (err) {
