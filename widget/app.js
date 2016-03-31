@@ -28,21 +28,12 @@
           WidgetHome.updateColorTheme = false;
           WidgetHome.success = function (result) {
             console.info('init success result:', result);
-            if (result.data && result.id) {
+            WidgetHome.data = {};
+            if (result.data) {
               WidgetHome.data = result.data;
               if (!WidgetHome.data.settings)
                 WidgetHome.data.settings = {};
               WidgetHome.apiKey = WidgetHome.data.settings.apiKey;
-            }
-            else {
-              WidgetHome.data = {
-                settings: {}
-              };
-              var dummyData = {
-                "apiKey": "630vy96ywcm2d9iqs19y6b5xa",
-                "headerText": "How can we help?"
-              };
-              WidgetHome.apiKey = dummyData.apiKey;
             }
             Buildfire.spinner.show();
             if (WidgetHome.apiKey)
