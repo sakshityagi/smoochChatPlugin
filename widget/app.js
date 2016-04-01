@@ -22,6 +22,10 @@
         WidgetHome.invalidApiKey = false;
         WidgetHome.apiKey = "";
         WidgetHome.instanceId;
+        WidgetHome.CHAT_TYPE = {
+          PUBLIC: "Public",
+          PRIVATE: "Private"
+        };
 
         /*Init method call, it will bring all the pre saved data*/
         WidgetHome.init = function () {
@@ -50,12 +54,14 @@
         WidgetHome.init();
 
         function initializeSmooch() {
+
           Buildfire.getContext(function (err, data) {
             var initObj = {
               appToken: WidgetHome.apiKey,
               customText: {headerText: WidgetHome.data.settings.headerText || "How can we help?"}
             };
             Buildfire.auth.getCurrentUser(function (err, user) {
+              var smoochApp;
               console.log("_______________________", user);
               if (user) {
                 initObj.givenName = user.displayName;
@@ -65,9 +71,33 @@
                 WidgetHome.instanceId = data.instanceId;
                 initObj.userId = data.instanceId;
               }
-              var smoochApp = Smooch.init(initObj);
+              if (WidgetHome.data.settings && WidgetHome.data.settings.type === WidgetHome.CHAT_TYPE.PRIVATE) {
+                if (user) {
+                  initObj.userId = user._id;
+                  smoochApp = Smooch.init(initObj)
+                } else {
+                  try {
+                    var randomId = JSON.parse(localStorage.getItem('smoochUserRandomId'));
+                  } catch (e) {
+                    console.log("Error while parsing value: ", e);
+                  }
+                  console.log("****************", randomId);
+                  if (randomId && randomId.id) {
+                    initObj.userId = randomId.id;
+                    smoochApp = Smooch.init(initObj)
+                  }
+                  else if (data && data.instanceId) {
+                    initObj.userId = data.instanceId + Date.now() + Math.random();
+                    localStorage.setItem('smoochUserRandomId', JSON.stringify({id: initObj.userId}));
+                    smoochApp = Smooch.init(initObj)
+                  }
+                }
+              } else {
+                smoochApp = Smooch.init(initObj)
+              }
 
-              smoochApp.then(function (res) {
+
+              smoochApp && smoochApp.then(function (res) {
                 Buildfire.spinner.hide();
                 if (res && res._id) {
                   WidgetHome.invalidApiKey = false;
@@ -108,7 +138,6 @@
               });
               break;
             case STATUS_CODE.SETTINGS_UPDATED :
-              console.log(">>>>>>>>>>>>>>>>>>>>");
               WidgetHome.data = event.data;
               WidgetHome.apiKey = WidgetHome.data && WidgetHome.data.settings && WidgetHome.data.settings.apiKey;
               if (WidgetHome.apiKey)

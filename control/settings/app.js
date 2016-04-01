@@ -6,11 +6,16 @@
       var SettingsHome = this;
       SettingsHome.helloWorld = 'Hello World';
       SettingsHome.masterData = null;
+      SettingsHome.CHAT_TYPE = {
+        PUBLIC : "Public",
+        PRIVATE : "Private"
+      };
 
       var _data = {
         settings: {
           "apiKey": "",
-          "headerText": ""
+          "headerText": "",
+          "type": ""
         }
       };
 
@@ -36,7 +41,8 @@
             if (!SettingsHome.data.settings)
               SettingsHome.data.settings = {
                 "apiKey": "",
-                "headerText": ""
+                "headerText": "",
+                "type": SettingsHome.CHAT_TYPE.PUBLIC
               };
             SettingsHome.updateMasterItem(SettingsHome.data);
           }
