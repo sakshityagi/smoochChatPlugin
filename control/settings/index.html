@@ -33,15 +33,15 @@
     </div>
     <div class="main pull-right col-md-9 padding-left-zero row">
       <div class="radio radio-primary radio-inline">
-        <input id="channel" type="radio" ng-model="SettingsHome.data.settings.type"
+        <input id="channel" type="radio" ng-model="SettingsHome.chatType"
                ng-value="SettingsHome.CHAT_TYPE.PRIVATE"
-               name="chattype">
+               name="chattype" ng-change="SettingsHome.updateChatType(SettingsHome.CHAT_TYPE.PRIVATE)">
         <label for="channel">Private chat</label>
       </div>
       <div class="radio radio-primary radio-inline">
-        <input id="video" type="radio" ng-model="SettingsHome.data.settings.type"
+        <input id="video" type="radio" ng-model="SettingsHome.chatType"
                ng-value="SettingsHome.CHAT_TYPE.PUBLIC"
-               name="chattype">
+               name="chattype" ng-change="SettingsHome.updateChatType(SettingsHome.CHAT_TYPE.PUBLIC)">
         <label for="video">Public chat</label>
       </div>
     </div>
