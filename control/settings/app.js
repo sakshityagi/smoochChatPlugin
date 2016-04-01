@@ -6,11 +6,17 @@
       var SettingsHome = this;
       SettingsHome.helloWorld = 'Hello World';
       SettingsHome.masterData = null;
+      SettingsHome.CHAT_TYPE = {
+        PUBLIC: "Public",
+        PRIVATE: "Private"
+      };
+
 
       var _data = {
         settings: {
           "apiKey": "",
-          "headerText": ""
+          "headerText": "",
+          "type": ""
         }
       };
 
@@ -26,6 +32,10 @@
         return SettingsHome.data && SettingsHome.data.settings && SettingsHome.data.settings.apiKey ? "true" : 'Please enter Smooch Chat API Key';
       };
 
+      SettingsHome.updateChatType = function (_type) {
+        SettingsHome.data.settings.type = _type;
+      };
+
       /*Init method call, it will bring all the pre saved data*/
       SettingsHome.init = function () {
         SettingsHome.success = function (result) {
@@ -36,8 +46,10 @@
             if (!SettingsHome.data.settings)
               SettingsHome.data.settings = {
                 "apiKey": "",
-                "headerText": ""
+                "headerText": "",
+                "type": SettingsHome.CHAT_TYPE.PUBLIC
               };
+            SettingsHome.chatType = SettingsHome.data.settings.type || SettingsHome.CHAT_TYPE.PUBLIC;
             SettingsHome.updateMasterItem(SettingsHome.data);
           }
         };

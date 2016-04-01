@@ -26,9 +26,32 @@
 </head>
 <body>
 <div ng-controller="SettingsHomeCtrl as SettingsHome">
+
+  <div class="item clearfix row">
+    <div class="labels col-md-3 padding-right-zero pull-left">
+      <span>Chat Type</span>
+    </div>
+    <div class="main pull-right col-md-9 padding-left-zero row">
+      <div class="radio radio-primary radio-inline">
+        <input id="channel" type="radio" ng-model="SettingsHome.chatType"
+               ng-value="SettingsHome.CHAT_TYPE.PRIVATE"
+               name="chattype" ng-change="SettingsHome.updateChatType(SettingsHome.CHAT_TYPE.PRIVATE)">
+        <label for="channel">Private chat</label>
+      </div>
+      <div class="radio radio-primary radio-inline">
+        <input id="video" type="radio" ng-model="SettingsHome.chatType"
+               ng-value="SettingsHome.CHAT_TYPE.PUBLIC"
+               name="chattype" ng-change="SettingsHome.updateChatType(SettingsHome.CHAT_TYPE.PUBLIC)">
+        <label for="video">Public chat</label>
+      </div>
+    </div>
+  </div>
+
   <div class="item clearfix row" ng-if="SettingsHome.data">
+    <br ng-if="SettingsHome.getAPIKeyStatus() != 'true'"/>
     <div class="main pull-right col-md-9">
-      <div class="alert alert-danger alert-sm text-center" ng-if="SettingsHome.getAPIKeyStatus() != 'true'">{{SettingsHome.getAPIKeyStatus()}}
+      <div class="alert alert-danger alert-sm text-center" ng-if="SettingsHome.getAPIKeyStatus() != 'true'">
+        {{SettingsHome.getAPIKeyStatus()}}
       </div>
     </div>
   </div>
