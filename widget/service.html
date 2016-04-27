@@ -2,66 +2,57 @@
 <html>
 <head>
 
-<meta name="buildfire" content="disableTheme,disableFastClick">
+  <meta name="buildfire" content="disableTheme,disableFastClick">
 
-    <!-- JS -->
+  <!-- JS -->
 
-<script src="../../../scripts/buildfire.js"></script>
-    <script src="https://cdn.smooch.io/smooch.min.js"></script>
-<!--
-<script src="../../../scripts/angular/angular.min.js"></script>
-<script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
--->
+  <script src="../../../scripts/buildfire.js"></script>
+  <script src="https://cdn.smooch.io/smooch.min.js"></script>
+  <!--
+  <script src="../../../scripts/angular/angular.min.js"></script>
+  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  -->
 
-<script>
-     var smoochApp ={};
+  <script>
+    var smoochApp = {};
+    buildfire.datastore.get('smoochChatInfo', function (err, obj) {
+      if (obj) {
+        var initObj = {};
+        if (obj.data.settings.type == "Private") {
+          initObj.appToken = obj.data.settings.apiKey;
+          initObj.customText = {headerText: obj.data.settings.headerText || "How can we help?"};
 
-
-buildfire.datastore.get('smoochChatInfo',function(err,obj){
-    if(obj){
-        options = obj.data;
-        var initObj={};
-        if(obj.data.settings.type=="Private"){
-            initObj.appToken=obj.data.settings.apiKey;
-            initObj.customText={headerText: obj.data.settings.headerText || "How can we help?"};
-        }
-
-        buildfire.auth.getCurrentUser(function (err, user) {
+          buildfire.auth.getCurrentUser(function (err, user) {
             if (user) {
-                initObj.givenName = user.displayName;
-                initObj.email = user.email;
+              initObj.givenName = user.displayName;
+              initObj.email = user.email;
+              initObj.userId = user._id;
+            } else {
+              try {
+                var randomId = JSON.parse(localStorage.getItem('smoochUserRandomId'));
+              } catch (e) {
+                console.log("Error while parsing value: ", e);
+              }
+              console.log("****************", randomId);
+              if (randomId && randomId.id) {
+                initObj.userId = randomId.id;
+              }
             }
-            if (obj && obj.instanceId) {
-                initObj.userId = obj.instanceId;
-            }
-            initObj.userId = user._id;
-
-            Smooch.on('message:received', function(message) {
-                console.log('the user received a message', message);
-                buildfire.pluginInstance.get([obj.id], function(instances){
-                    console.log(instances);
-                    //buildfire.navigation.navigateTo (pluginId, instanceId, title)
-                })
-
+            Smooch.on('message:received', function (message) {
+              console.log('the user received a message', message);
+              console.log('------------------------', obj.id);
+               buildfire.pluginInstance.get([obj.id], function(instances){
+                 console.log('Instance Id::::::::::::::::::', instances);
+               })
             });
 
             smoochApp = Smooch.init(initObj);
-        });
-    }
-});
+          });
+        }
+      }
+    });
 
-   /*  if(smoochApp){
-
-     }*/
-
-
-/*
-
-
-buildfire.datastore.onUpdate('smoochChatInfo',function(result){
-   console.log(result);
-})*/
-</script>
+  </script>
 
 </head>
 
