@@ -16,9 +16,6 @@
 <script>
      var smoochApp ={};
 
-     Smooch.on('message:sent', function(message) {
-         console.log('the user sent a message', message);
-     });
 
 buildfire.datastore.get('smoochChatInfo',function(err,obj){
     if(obj){
@@ -41,29 +38,14 @@ buildfire.datastore.get('smoochChatInfo',function(err,obj){
 
             Smooch.on('message:received', function(message) {
                 console.log('the user received a message', message);
+                buildfire.pluginInstance.get([obj.id], function(instances){
+                    console.log(instances);
+                    //buildfire.navigation.navigateTo (pluginId, instanceId, title)
+                })
+
             });
 
-            Smooch.on('message:sent', function(message) {
-                console.log('the user sent a message', message);
-            });
-
-            Smooch.on('message', function(message) {
-                console.log('a message was added to the conversation', message);
-            });
-
-            Smooch.on('widget:opened', function() {
-                console.log('Widget is opened!');
-            });
-
-            Smooch.on('widget:closed', function() {
-                console.log('Widget is closed!');
-            });
             smoochApp = Smooch.init(initObj);
-
-            smoochApp.then(function(){
-                Smooch.sendMessage('hello');
-            })
-
         });
     }
 });
