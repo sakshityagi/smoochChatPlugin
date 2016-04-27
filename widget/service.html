@@ -46,7 +46,11 @@
                 if (error) {
                 } else {
                   if (data.instanceId) {
-                    buildfire.navigation.navigateTo(data.pluginId, data.instanceId, "title");
+                    console.log('type::::::::::::::::::', typeof
+                        data.instanceId);
+                    buildfire.pluginInstance.get([data.instanceId], function (error, instances) {
+                      console.log('Instance data::::::::::::::::::', error, instances);
+                    })
                   }
                 }
               })
