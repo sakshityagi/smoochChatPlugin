@@ -41,9 +41,15 @@
             Smooch.on('message:received', function (message) {
               console.log('the user received a message', message);
               console.log('------------------------', obj.id);
-               buildfire.pluginInstance.get([obj.id], function(error,instances){
-                 console.log('Instance Id::::::::::::::::::', error, instances);
-               })
+              buildfire.getContext(function (error, data) {
+                console.log('Instance Id::::::::::::::::::', error, data);
+                if (error) {
+                } else {
+                  if (data.instanceId) {
+                    buildfire.navigation.navigateTo(data.pluginId, data.instanceId, "title");
+                  }
+                }
+              })
             });
 
             smoochApp = Smooch.init(initObj);
