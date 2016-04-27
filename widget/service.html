@@ -41,8 +41,8 @@
             Smooch.on('message:received', function (message) {
               console.log('the user received a message', message);
               console.log('------------------------', obj.id);
-               buildfire.pluginInstance.get([obj.id], function(instances){
-                 console.log('Instance Id::::::::::::::::::', instances);
+               buildfire.pluginInstance.get([obj.id], function(error,instances){
+                 console.log('Instance Id::::::::::::::::::', error, instances);
                })
             });
 
