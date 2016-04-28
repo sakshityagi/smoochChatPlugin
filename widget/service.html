@@ -47,6 +47,13 @@
 
                     buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
                       console.log('Instance data::::::::::::::::::', error, instances);
+                      if(instances && !error){
+                        buildfire.navigation.navigateTo({
+                          pluginId: instances[0].pluginId,
+                          instanceId: data.instanceId,
+                          title: instances[0].title
+                        });
+                      }
                     })
 
 
