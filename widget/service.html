@@ -38,6 +38,7 @@
                 initObj.userId = randomId.id;
               }
             }
+            
             Smooch.on('message:received', function (message) {
               console.log('the user received a message', message);
               console.log('------------------------', obj.id);
@@ -46,8 +47,11 @@
               console.log("InstanceId :::::::::",buildfire.context.instanceId);
               console.log('your data has saved successfully');
 
+              buildfire.datastore.getWithDynamicData("smoochChatInfo", function(err, result) {
+                console.log('Dynamic  data::::::::::::::::::', error, result);
+              });
 
-                    buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
+              buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
                       console.log('Instance data::::::::::::::::::', error, instances);
                       if(instances && !error){
                         buildfire.navigation.navigateTo({

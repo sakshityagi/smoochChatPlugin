@@ -17,6 +17,13 @@
           "apiKey": "",
           "headerText": "",
           "type": ""
+        },
+        _buildfire: {
+          "plugins" :{
+            "dataType" : "pluginInstance",
+            "data": [buildfire.context.instanceId]
+          }
+
         }
       };
 
