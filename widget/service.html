@@ -41,19 +41,15 @@
             Smooch.on('message:received', function (message) {
               console.log('the user received a message', message);
               console.log('------------------------', obj.id);
-              buildfire.getContext(function (error, data) {
-                console.log('Instance Id::::::::::::::::::', error, data);
-                if (error) {
-                } else {
-                  if (data.instanceId) {
-                    console.log('type::::::::::::::::::', typeof
-                        data.instanceId);
-                    buildfire.pluginInstance.get([data.instanceId], function (error, instances) {
+
+
+                console.log("InstanceId :::::::::",buildfire.context.instanceId);
+
+                    buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
                       console.log('Instance data::::::::::::::::::', error, instances);
                     })
-                  }
-                }
-              })
+
+
             });
 
             smoochApp = Smooch.init(initObj);
