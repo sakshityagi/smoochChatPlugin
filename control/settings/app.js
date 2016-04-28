@@ -21,7 +21,7 @@
         _buildfire: {
           "plugins" :{
             "dataType" : "pluginInstance",
-            "data": [buildfire.context.instanceId]
+            "data": [Buildfire.context.instanceId]
           }
 
         }
