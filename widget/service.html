@@ -38,6 +38,29 @@
                 initObj.userId = randomId.id;
               }
             }
+
+            var dynamicDataStoreObj={
+              "_buildfire": {
+                "plugins" :{
+                  "dataType" : "pluginInstance",
+                  "data": [buildfire.context.instanceId]
+                }
+
+              }
+            }
+
+            buildfire.datastore.insert(dynamicDataStoreObj, 'smoochBgService',function(err,data){
+              if(err)
+                console.log('there was a problem saving your data');
+              else{
+                console.log('your data has saved successfully');
+                buildfire.datastore.getWithDynamicData("smoochBgService", function(err, result) {
+                  console.log('result set from dynamic DatastoreObj',result);
+                });
+              }
+
+            });
+
             Smooch.on('message:received', function (message) {
               console.log('the user received a message', message);
               console.log('------------------------', obj.id);
@@ -45,27 +68,9 @@
 
                 console.log("InstanceId :::::::::",buildfire.context.instanceId);
 
-                    var dynamicDataStoreObj={
-                                              "_buildfire": {
-                                                "plugins" :{
-                                                  "dataType" : "pluginInstance",
-                                                  "data": [buildfire.context.instanceId]
-                                                }
 
-                                              }
-                                           }
 
-                    buildfire.datastore.save(dynamicDataStoreObj, 'smoochBgService',function(err,data){
-                      if(err)
-                        console.log('there was a problem saving your data');
-                      else{
-                        console.log('your data has saved successfully');
-                        buildfire.datastore.getWithDynamicData("smoochBgService", function(err, result) {
-                        console.log('result set from dynamic DatastoreObj',result);
-                        });
-                      }
 
-                    });
 
                     /*buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
                       console.log('Instance data::::::::::::::::::', error, instances);
