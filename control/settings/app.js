@@ -20,7 +20,6 @@
         }
       };
 
-
       SettingsHome.isUnchanged = function (data) {
         return angular.equals(data, SettingsHome.masterData);
       };
@@ -50,16 +49,6 @@
                 "headerText": "",
                 "type": SettingsHome.CHAT_TYPE.PUBLIC
               };
-
-
-            if (!SettingsHome.data._buildfire){
-              SettingsHome.data._buildfire={}
-              SettingsHome.data._buildfire.plugins= {
-                "dataType" : "pluginInstance",
-                "data": [Buildfire.context.instanceId]
-              }
-            }
-
             SettingsHome.chatType = SettingsHome.data.settings.type || SettingsHome.CHAT_TYPE.PUBLIC;
             SettingsHome.updateMasterItem(SettingsHome.data);
           }
@@ -77,10 +66,8 @@
         if (typeof newObj === 'undefined') {
           return;
         }
-
         SettingsHome.success = function (result) {
           console.info('Saved data result: ', result);
-
           SettingsHome.updateMasterItem(newObj);
           Buildfire.messaging.sendMessageToWidget({
             'name': STATUS_CODE.SETTINGS_UPDATED,
