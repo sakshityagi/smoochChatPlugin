@@ -55,10 +55,8 @@
             if (!SettingsHome.data._buildfire){
               SettingsHome.data._buildfire={}
               SettingsHome.data._buildfire.plugins= {
-
                 "dataType" : "pluginInstance",
                 "data": [Buildfire.context.instanceId]
-
               }
             }
 
@@ -79,6 +77,7 @@
         if (typeof newObj === 'undefined') {
           return;
         }
+
         SettingsHome.success = function (result) {
           console.info('Saved data result: ', result);
 

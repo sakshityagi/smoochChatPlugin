@@ -15,7 +15,7 @@
 
   <script>
     var smoochApp = {};
-    buildfire.datastore.get('smoochChatInfo', function (err, obj) {
+    buildfire.datastore.getWithDynamicData('smoochChatInfo', function (err, obj) {
       if (obj) {
         var initObj = {};
         if (obj.data.settings.type == "Private") {
@@ -46,10 +46,6 @@
 
               console.log("InstanceId :::::::::",buildfire.context.instanceId);
               console.log('your data has saved successfully');
-
-              buildfire.datastore.getWithDynamicData("smoochChatInfo", function(err, result) {
-                console.log('Dynamic  data::::::::::::::::::', error, result);
-              });
 
               buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
                       console.log('Instance data::::::::::::::::::', error, instances);
