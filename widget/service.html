@@ -15,55 +15,62 @@
 
   <script>
     var smoochApp = {};
-    buildfire.datastore.get('smoochChatInfo', function (err, obj) {
-      if (obj) {
-        var initObj = {};
-        if (obj.data.settings.type == "Private") {
-          initObj.appToken = obj.data.settings.apiKey;
-          initObj.customText = {headerText: obj.data.settings.headerText || "How can we help?"};
+    setTimeout(function(){
+      buildfire.datastore.get('smoochChatInfo', function (err, obj) {
+        if (obj) {
+          var initObj = {};
+          if (obj.data.settings.type == "Private") {
+            initObj.appToken = obj.data.settings.apiKey;
+            initObj.customText = {headerText: obj.data.settings.headerText || "How can we help?"};
 
-          buildfire.auth.getCurrentUser(function (err, user) {
-            if (user) {
-              initObj.givenName = user.displayName;
-              initObj.email = user.email;
-              initObj.userId = user._id;
-            } else {
-              try {
-                var randomId = JSON.parse(localStorage.getItem('smoochUserRandomId'));
-              } catch (e) {
-                console.log("Error while parsing value: ", e);
+            buildfire.auth.getCurrentUser(function (err, user) {
+              if (user) {
+                initObj.givenName = user.displayName;
+                initObj.email = user.email;
+                initObj.userId = user._id;
+              } else {
+                try {
+                  var randomId = JSON.parse(localStorage.getItem('smoochUserRandomId'));
+                } catch (e) {
+                  console.log("Error while parsing value: ", e);
+                }
+                console.log("****************", randomId);
+                if (randomId && randomId.id) {
+                  initObj.userId = randomId.id;
+                }
               }
-              console.log("****************", randomId);
-              if (randomId && randomId.id) {
-                initObj.userId = randomId.id;
-              }
-            }
-            
-            Smooch.on('message:received', function (message) {
-              console.log('the user received a message', message);
-              console.log('------------------------', obj.id);
 
+              Smooch.on('message:received', function (message) {
+                console.log('the user received a message', message);
+                console.log('------------------------', obj.id);
 
-              console.log("InstanceId :::::::::",buildfire.context.instanceId);
-              console.log('your data has saved successfully');
+                buildfire.datastore.getWithDynamicData('smoochChatInfo', function (err, obj) {
+                  console.log(obj);
+                });
 
-              buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
-                      console.log('Instance data::::::::::::::::::', error, instances);
-                      if(instances && !error){
-                        buildfire.navigation.navigateTo({
-                          pluginId: instances[0].pluginId,
-                          instanceId: data.instanceId,
-                          title: instances[0].title
-                        });
-                      }
-                    })
+                console.log("InstanceId :::::::::",buildfire.context.instanceId);
+                console.log('your data has saved successfully');
+
+                buildfire.pluginInstance.get([buildfire.context.instanceId], function (error, instances) {
+                  console.log('Instance data::::::::::::::::::', error, instances);
+                  if(instances && !error){
+                    buildfire.navigation.navigateTo({
+                      pluginId: instances[0].pluginId,
+                      instanceId: data.instanceId,
+                      title: instances[0].title
+                    });
+                  }
+                })
+              });
+
+              smoochApp = Smooch.init(initObj);
             });
-
-            smoochApp = Smooch.init(initObj);
-          });
+          }
         }
-      }
-    });
+      });
+
+    },1000)
+
 
   </script>
 
