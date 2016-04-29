@@ -15,7 +15,7 @@
 
   <script>
     var smoochApp = {};
-    buildfire.datastore.getWithDynamicData('smoochChatInfo', function (err, obj) {
+    buildfire.datastore.get('smoochChatInfo', function (err, obj) {
       if (obj) {
         var initObj = {};
         if (obj.data.settings.type == "Private") {
