@@ -15,58 +15,50 @@
 
   <script>
     var smoochApp = {};
-    function callMeAgain(){
-      buildfire.datastore.get('smoochChatInfo', function (err, obj) {
-        if (obj) {
-          var initObj = {};
-          if(!obj.id){
-            callMeAgain();
-            return;
-          }
-          if (obj.data.settings.type == "Private") {
-            initObj.appToken = obj.data.settings.apiKey;
-            initObj.customText = {headerText: obj.data.settings.headerText || "How can we help?"};
 
-            buildfire.auth.getCurrentUser(function (err, user) {
-              if (user) {
-                initObj.givenName = user.displayName;
-                initObj.email = user.email;
-                initObj.userId = user._id;
-              } else {
-                try {
-                  var randomId = JSON.parse(localStorage.getItem('smoochUserRandomId'));
-                } catch (e) {
-                  console.log("Error while parsing value: ", e);
-                }
-                console.log("****************", randomId);
-                if (randomId && randomId.id) {
-                  initObj.userId = randomId.id;
-                }
+    buildfire.datastore.get('smoochChatInfo', function (err, obj) {
+      if (obj) {
+        var initObj = {};
+        if (obj.data.settings.type == "Private") {
+          initObj.appToken = obj.data.settings.apiKey;
+          initObj.customText = {headerText: obj.data.settings.headerText || "How can we help?"};
+
+          buildfire.auth.getCurrentUser(function (err, user) {
+            if (user) {
+              initObj.givenName = user.displayName;
+              initObj.email = user.email;
+              initObj.userId = user._id;
+            } else {
+              try {
+                var randomId = JSON.parse(localStorage.getItem('smoochUserRandomId'));
+              } catch (e) {
+                console.log("Error while parsing value: ", e);
               }
+              console.log("****************", randomId);
+              if (randomId && randomId.id) {
+                initObj.userId = randomId.id;
+              }
+            }
 
-              Smooch.on('message:received', function (message) {
-                console.log('the user received a message', message);
-                console.log("InstanceId :::::::::",buildfire.context.instanceId);
-                buildfire.datastore.getWithDynamicData('smoochChatInfo', function (err, result) {
-                  var instance=result.data._buildfire.plugins.result[0].data;
-                  console.log(instance);
-                  buildfire.navigation.navigateTo({
-                    pluginId: instance[0].pluginType.token,
-                    instanceId: instance[0].instanceId,
-                    title: instance[0].title
-                  });
+            Smooch.on('message:received', function (message) {
+              console.log('the user received a message', message);
+              console.log("InstanceId :::::::::",buildfire.context.instanceId);
+              buildfire.datastore.getWithDynamicData('smoochChatInfo', function (err, result) {
+                var instance=result.data._buildfire.plugins.result[0].data;
+                console.log(instance);
+                buildfire.navigation.navigateTo({
+                  pluginId: instance[0].pluginType.token,
+                  instanceId: instance[0].instanceId,
+                  title: instance[0].title
                 });
               });
-
-              smoochApp = Smooch.init(initObj);
             });
-          }
+
+            smoochApp = Smooch.init(initObj);
+          });
         }
-      });
-    }
-
-    callMeAgain();
-
+      }
+    });
   </script>
 
 </head>
