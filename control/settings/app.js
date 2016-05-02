@@ -61,7 +61,7 @@
 
             }else{
                SettingsHome.data._buildfire.plugins.data[0]=buildfire.context.instanceId;
-              //SettingsHome.data._buildfire.plugins.data[0]="b5852aa4-ab50-44e9-b52d-021098c65eb0-1461739671204";
+             // SettingsHome.data._buildfire.plugins.data[0]="b5852aa4-ab50-44e9-b52d-021098c65eb0-1461739671204";
             }
             SettingsHome.chatType = SettingsHome.data.settings.type || SettingsHome.CHAT_TYPE.PUBLIC;
             SettingsHome.updateMasterItem(SettingsHome.data);
