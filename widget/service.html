@@ -15,8 +15,8 @@
 
   <script>
     var smoochApp = {};
-    setTimeout(function(){
-      buildfire.datastore.get(function (err, obj) {
+
+      buildfire.datastore.get('smoochChatInfo', function (err, obj) {
         if (obj) {
           var initObj = {};
           if (obj.data.settings.type == "Private") {
@@ -43,7 +43,7 @@
               Smooch.on('message:received', function (message) {
                 console.log('the user received a message', message);
                 console.log("InstanceId :::::::::",buildfire.context.instanceId);
-                buildfire.datastore.getWithDynamicData(function (err, result) {
+                buildfire.datastore.getWithDynamicData('smoochChatInfo', function (err, result) {
                   var instance=result.data._buildfire.plugins.result[0].data;
                   console.log(instance);
                   buildfire.navigation.navigateTo({
@@ -59,10 +59,6 @@
           }
         }
       });
-
-    },1000)
-
-
   </script>
 
 </head>
