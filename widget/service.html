@@ -19,7 +19,7 @@
       buildfire.datastore.get('smoochChatInfo', function (err, obj) {
         if (obj) {
           var initObj = {};
-          if(!obj.data.settings){
+          if(!obj.id){
             callMeAgain();
             return;
           }
@@ -64,6 +64,8 @@
         }
       });
     }
+
+    callMeAgain();
 
   </script>
 
