@@ -15,10 +15,14 @@
 
   <script>
     var smoochApp = {};
-
+    function callMeAgain(){
       buildfire.datastore.get('smoochChatInfo', function (err, obj) {
         if (obj) {
           var initObj = {};
+          if(!obj.data.settings){
+            callMeAgain();
+            return;
+          }
           if (obj.data.settings.type == "Private") {
             initObj.appToken = obj.data.settings.apiKey;
             initObj.customText = {headerText: obj.data.settings.headerText || "How can we help?"};
@@ -59,6 +63,8 @@
           }
         }
       });
+    }
+
   </script>
 
 </head>
