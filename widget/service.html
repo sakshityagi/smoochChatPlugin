@@ -47,9 +47,10 @@
                 var instance=result.data._buildfire.plugins.result[0].data;
                 console.log(instance);
                 buildfire.navigation.navigateTo({
-                  pluginId: instance[0].pluginType.token,
-                  instanceId: instance[0].instanceId,
-                  title: instance[0].title
+                  pluginId: instance.pluginType.token,
+                  instanceId: instance.instanceId,
+                  title: instance.title,
+                  folderName : instance.pluginType.folderName
                 });
               });
 
