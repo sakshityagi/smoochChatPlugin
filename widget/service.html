@@ -16,7 +16,15 @@
   <script>
     var smoochApp = {};
 
-    buildfire.datastore.get('smoochChatInfo', function (err, obj) {
+    buildfire.datastore.get('smoochChatInfo', function (err, res) {
+      getDataAndAttachSmoochEvent(res);
+    });
+
+    buildfire.datastore.onUpdate('smoochChatInfo', function (err, res) {
+      getDataAndAttachSmoochEvent(res);
+    });
+
+    getDataAndAttachSmoochEvent(obj){
       if (obj) {
         var initObj = {};
         if (obj.data.settings.type == "Private") {
@@ -61,7 +69,7 @@
           });
         }
       }
-    });
+    }
   </script>
 
 </head>
