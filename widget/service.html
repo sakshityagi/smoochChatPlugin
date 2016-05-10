@@ -20,9 +20,14 @@
       getDataAndAttachSmoochEvent(res);
     });
 
-    buildfire.datastore.onUpdate( function (err, res) {
-      getDataAndAttachSmoochEvent(res);
-    });
+
+    Buildfire.messaging.onReceivedMessage = function (event) {
+      switch (event && event.name) {
+
+        case "SETTINGS_UPDATED" :
+          getDataAndAttachSmoochEvent(event)
+      }
+    };
 
     function getDataAndAttachSmoochEvent(obj){
       if (obj) {
