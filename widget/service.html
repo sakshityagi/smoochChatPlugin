@@ -15,6 +15,7 @@
 
   <script type="text/javascript">
     (function () {
+      console.log("Service is loaded in backhground");
       var smoochApp = {};
 
       buildfire.datastore.get('smoochChatInfo', function (err, res) {
@@ -53,6 +54,13 @@
                   initObj.userId = randomId.id;
                 }
               }
+
+              buildfire.pluginInstance.get([buildfire.context.instanceId],function(err,data){
+                console.log(err);
+                console.log(data);
+              });
+
+
 
               Smooch.on('message:received', function (message) {
                 console.log('the user received a message', message);
