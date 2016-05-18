@@ -49,10 +49,10 @@
                                     console.log(err);
                                     console.log(instance);
                                     buildfire.navigation.navigateTo({
-                                        pluginId: instance.pluginType.token,
+                                        pluginId: instance.token,
                                         instanceId: instance.instanceId,
                                         title: instance.title,
-                                        folderName : instance.pluginType.folderName
+                                        folderName : instance._buildfire.pluginType.folderName.result[0].folderName;
                                     });
                                 });
 
