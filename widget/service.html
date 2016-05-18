@@ -55,18 +55,12 @@
                 }
               }
 
-              buildfire.pluginInstance.get( buildfire.context.instanceId ,function(err,data){
-                console.log(err);
-                console.log(data);
-              });
-
-
-
               Smooch.on('message:received', function (message) {
                 console.log('the user received a message', message);
                 console.log("InstanceId :::::::::",buildfire.context.instanceId);
-                buildfire.datastore.getWithDynamicData('smoochChatInfo', function (err, result) {
-                  var instance=result.data._buildfire.plugins.result[0].data;
+
+                buildfire.pluginInstance.get( buildfire.context.instanceId ,function(err,instance){
+                  console.log(err);
                   console.log(instance);
                   buildfire.navigation.navigateTo({
                     pluginId: instance.pluginType.token,
@@ -75,7 +69,6 @@
                     folderName : instance.pluginType.folderName
                   });
                 });
-
 
               });
 
