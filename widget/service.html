@@ -14,7 +14,7 @@
   -->
 
   <script type="text/javascript">
-    (function () {
+  /*(function () {
       console.log("Service is loaded in backhground");
       var smoochApp = {};
 
@@ -77,7 +77,68 @@
           }
         }
       }
-    })();
+    })();*/
+
+   var options,counter;
+   function init(obj) {
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ INIT CALLED");
+     var tmr = setInterval(function () {
+
+       if (obj) {
+         var initObj = {};
+         if (obj.data.settings.type == "Private") {
+           initObj.appToken = obj.data.settings.apiKey;
+           initObj.customText = {headerText: obj.data.settings.headerText || "How can we help?"};
+
+           buildfire.auth.getCurrentUser(function (err, user) {
+             if (user) {
+               initObj.givenName = user.displayName;
+               initObj.email = user.email;
+               initObj.userId = user._id;
+             } else {
+               try {
+                 var randomId = JSON.parse(localStorage.getItem('smoochUserRandomId'));
+               } catch (e) {
+                 console.log("Error while parsing value: ", e);
+               }
+               console.log("****************", randomId);
+               if (randomId && randomId.id) {
+                 initObj.userId = randomId.id;
+               }
+             }
+
+             Smooch.on('message:received', function (message) {
+               console.log('the user received a message', message);
+               console.log("InstanceId :::::::::",buildfire.context.instanceId);
+
+               buildfire.pluginInstance.get( buildfire.context.instanceId ,function(err,instance){
+                 console.log(err);
+                 console.log(instance);
+                 buildfire.navigation.navigateTo({
+                   pluginId: instance.pluginType.token,
+                   instanceId: instance.instanceId,
+                   title: instance.title,
+                   folderName : instance.pluginType.folderName
+                 });
+               });
+
+             });
+
+            var smoochApp = Smooch.init(initObj);
+           });
+         }
+       }
+         clearInterval(tmr);
+
+     }, 1000);
+   }
+   buildfire.datastore.get("smoochChatInfo",function(err,obj){
+     if(obj){
+       options = obj.data;
+       init(obj);
+     }
+   });
+
 
   </script>
 
