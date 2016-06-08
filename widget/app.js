@@ -21,7 +21,7 @@
         WidgetHome.data = null;
         WidgetHome.invalidApiKey = false;
         WidgetHome.apiKey = "";
-        WidgetHome.instanceId;
+        WidgetHome.instanceId = null;
         WidgetHome.CHAT_TYPE = {
           PUBLIC: "Public",
           PRIVATE: "Private"
@@ -190,5 +190,16 @@
          * onLogin() listens when user logins using buildfire.auth api.
          */
         Buildfire.auth.onLogin(loginCallback);
+
+
+        /*
+         * Enable pull down to refresh and fetch fresh data
+         */
+
+        Buildfire.datastore.onRefresh(function () {
+          if (WidgetHome.apiKey)
+            initializeSmooch();
+        });
+
       }]);
 })(window.angular);
