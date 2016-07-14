@@ -196,7 +196,7 @@
          * Enable pull down to refresh and fetch fresh data
          */
 
-        Buildfire.datastore.onRefresh(function () {
+        buildfire.datastore.onRefresh(function () {
           if (WidgetHome.apiKey)
             initializeSmooch();
         });
